@@ -10,7 +10,11 @@
     "react-dom": "^16.8.6",
     "react_ujs": "^2.5.0"
   },
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
+    "jest": "^24.8.0",
     "webpack-dev-server": "^3.7.2"
   }
 }

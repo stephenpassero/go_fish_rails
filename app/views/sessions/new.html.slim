@@ -1,0 +1,5 @@
+h1 Player Name
+= form_for @user, url: sessions_url do |f|
+  = f.label "Name"
+  = f.text_field :name, required: true
+  = f.submit "Submit"
