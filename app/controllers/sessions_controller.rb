@@ -3,8 +3,13 @@ class SessionsController < ApplicationController
     @user = User.new
   end
 
-  def create()
+  def create
     @user = User.find_or_initialize_by(name: params[:user][:name])
-    @user.save()
+    if @user.save
+      session[:current_user] = @user.id
+      redirect_to game_index_path
+    else
+      render :new
+    end
   end
 end
