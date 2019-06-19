@@ -9,5 +9,4 @@ h2 Pending Games
   h3 Try creating a new one
 - else
   - @pending_games.each_with_index do |pending_game, index|
-    p = "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - [pending_game.users].length} open spots"
-    p = pending_game.users[0]
+    p = link_to "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - pending_game.users.length} open spots", game_show_path(id: pending_game.id)

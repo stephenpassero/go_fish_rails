@@ -1,12 +1,12 @@
 class GameController < ApplicationController
   def create
     @game = Game.create(game_params)
-    User.find(session[:current_user]).update(game_id: @game.id)
     redirect_to game_show_path(id: @game)
   end
 
   def index
-    @user_name = User.find(session[:current_user]).name
+    user = User.find(session[:current_user])
+    @user_name = user.name
     @pending_games = Game.pending
   end
 
@@ -16,6 +16,16 @@ class GameController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    User.find(session[:current_user]).update(game_id: @game.id)
+  end
+
+  def leave
+    User.find(session[:current_user]).update(game_id: nil)
+    game = Game.find(params[:id])
+    if game.users.length == 0
+      game.delete
+    end
+    redirect_to game_index_path
   end
 
   private
