@@ -1,2 +1,5 @@
-h1 Game#new
-p Find me in app/views/game/new.html.slim
+h2 How many players do you want to play with?
+= form_for @game, url: game_create_url() do |f|
+  = f.label "Number of Players"
+  = f.number_field :players, required: true
+  = f.submit "Create Game"

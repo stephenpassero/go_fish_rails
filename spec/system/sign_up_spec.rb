@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Sign Up', type: :system do
   before do
-    driven_by(:selenium_chrome)
+    driven_by(:rack_test)
     visit 'sessions/new'
   end
 

@@ -1,5 +1,5 @@
 h1 Welcome to Go Fish
-= form_for @user, url: sessions_url do |f|
+= form_for @user, url: sessions_url, remote: true do |f|
   = f.label "Name"
   = f.text_field :name, required: true
   = f.submit "Submit"
