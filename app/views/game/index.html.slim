@@ -5,8 +5,7 @@ h3 = link_to "Create Game", game_new_path
 
 h2 Pending Games
 - if @pending_games.length == 0
-  h3 There are no games available to join
-  h3 Try creating a new one
+  p There are not pending games.
 - else
   - @pending_games.each_with_index do |pending_game, index|
     p = link_to "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - pending_game.users.length} open spots", game_show_path(id: pending_game.id)

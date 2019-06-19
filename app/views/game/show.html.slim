@@ -1,6 +1,11 @@
-h1 = "Waiting for #{@game.players - @game.users.length} more player(s) to join"
-h3 Players Joined:
-- @game.users.each do |user|
-  p = user.name
-
-h3 = link_to "Leave Lobby", game_leave_path(id: @game)
+- if @game.users.length == @game.players
+  - @game.update(start_at: Time.now)
+  = react_component('Game', {}, {prerender: true})
+- else
+  h1 = "Waiting for #{@game.players - @game.users.length} more player(s) to join"
+  h3 Players Joined:
+  - @game.users.each do |user|
+    p = user.name
+    h3 = link_to "Leave Lobby", game_leave_path(id: @game)
+    - if @game.users.length == @game.players
+      = react_component('Game', {}, {prerender: true})
