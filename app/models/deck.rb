@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 class Deck
   attr_reader(:cards)
   def initialize

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_161711) do
+ActiveRecord::Schema.define(version: 2019_06_20_152548) do
 
   create_table "games", force: :cascade do |t|
     t.datetime "start_at"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2019_06_19_161711) do
     t.integer "players"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "game_logic", default: {}, null: false
   end
 
   create_table "users", force: :cascade do |t|

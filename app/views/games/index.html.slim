@@ -5,7 +5,7 @@ h3 = link_to "Create Game", new_game_path
 
 h2 Pending Games
 - if @pending_games.length == 0
-  p There are not pending games.
+  p There are no pending games.
 - else
   - @pending_games.each_with_index do |pending_game, index|
     p = link_to "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - pending_game.users.length} open spots", games_join_path(pending_game), method: :post

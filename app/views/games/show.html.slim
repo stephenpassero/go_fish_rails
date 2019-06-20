@@ -1,6 +1,5 @@
 - if @game.users.length == @game.players
-  - @game.update(start_at: Time.now)
-  = react_component('Game', {}, {prerender: true})
+  = react_component('Game', {id: @game.id})
 - else
   h1 = "Waiting for #{@game.players - @game.users.length} more player(s) to join"
   h3 Players Joined:

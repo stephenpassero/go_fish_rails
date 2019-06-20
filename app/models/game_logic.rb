@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'json'
 
 class GameLogic
   attr_reader(:player_names, :deck, :player_turn, :players)
@@ -17,4 +17,13 @@ class GameLogic
     end
     @players.values.each {|player| player.add_cards(@deck.deal(5))}
   end
+
+  def self.load(hash)
+   return nil if hash.blank?
+   hash.to_json
+ end
+
+ def self.dump(obj)
+   obj.as_json
+ end
 end
