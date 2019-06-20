@@ -21,4 +21,14 @@ RSpec.describe Deck, type: :model do
     cards.concat(@deck.deal(3))
     expect(cards.length).to eq(3)
   end
+
+  describe 'when out of cards' do
+    describe '#deal' do
+      it 'doesn\'t return nil' do
+        @deck.deal(52)
+        dealt = @deck.deal(1)
+        expect(dealt).to eq([])
+      end
+    end
+  end
 end

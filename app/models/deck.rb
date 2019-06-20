@@ -27,6 +27,6 @@ class Deck
     num_of_cards.times do
       temporary_cards.push(@cards.pop())
     end
-    temporary_cards
+    temporary_cards - [nil]
   end
 end

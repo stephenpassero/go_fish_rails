@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :game
   post 'game/create'
   get 'game/index'
   get 'game/new'

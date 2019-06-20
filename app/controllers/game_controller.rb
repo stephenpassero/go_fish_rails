@@ -14,6 +14,8 @@ class GameController < ApplicationController
     @game = Game.new()
   end
 
+
+  # Create new controller method to have a user join
   def show
     @game = Game.find(params[:id])
     User.find(session[:current_user]).update(game_id: @game.id)
