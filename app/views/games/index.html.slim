@@ -8,4 +8,4 @@ h2 Pending Games
   p There are not pending games.
 - else
   - @pending_games.each_with_index do |pending_game, index|
-    p = link_to "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - pending_game.users.length} open spots", game_path(pending_game)
+    p = link_to "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - pending_game.users.length} open spots", games_join_path(pending_game), method: :post

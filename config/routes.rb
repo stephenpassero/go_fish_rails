@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post 'games/leave'
-  resources :games, only: [ :index, :show, :new, :create ]
+  post 'games/join'
+  resources :games
   resources :sessions
   root 'sessions#new'
 end
