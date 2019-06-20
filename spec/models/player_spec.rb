@@ -43,4 +43,24 @@ RSpec.describe Player, type: :model do
     expect(@player.cards_left).to eq(0)
     expect(@player.pairs).to eq(['6'])
   end
+
+  describe '#as_json' do
+    it 'converts an object into a hash' do
+      @player.set_hand([Card.new('A', 'Spades'), Card.new('A', 'Diamonds')])
+      expect(@player.as_json).to include_json(
+        name: 'Player1',
+        cards: [{rank: 'A', suit: 'Spades'}, {rank: 'A', suit: 'Diamonds'}],
+        pairs: []
+      )
+    end
+  end
+
+  describe '#from_json' do
+    it 'converts an hash into an object' do
+      @player.set_hand([Card.new('A', 'Spades'), Card.new('A', 'Diamonds')])
+      new_player = Player.from_json(@player.as_json)
+      expect(new_player.name).to eq(@player.name)
+      expect(new_player.cards[0].suit).to eq(@player.cards[0].suit)
+    end
+  end
 end

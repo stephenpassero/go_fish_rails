@@ -21,6 +21,8 @@ gem 'pry'
 
 gem 'pusher'
 
+gem 'rspec-json_expectations'
+
 gem 'react-rails'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

@@ -1,9 +1,9 @@
 class Player
   attr_reader(:name, :cards, :pairs)
-  def initialize(name)
+  def initialize(name, cards = [], pairs = [])
     @name = name
-    @cards = []
-    @pairs = []
+    @cards = cards
+    @pairs = pairs
   end
 
   def cards_left
@@ -34,5 +34,21 @@ class Player
         @cards = @cards.select {|card| !sameRank.include?(card)}
       end
     end
+  end
+
+  def self.from_json(hash)
+    Player.new(
+      hash[:name],
+      hash[:cards].map {|card| Card.from_json(card)},
+      hash[:pairs].map {|pair| Card.from_json(pair)}
+    )
+  end
+
+  def as_json
+    {
+      name: @name,
+      cards: @cards.map {|card| card.as_json},
+      pairs: @pairs.map {|pair| pair.as_json}
+    }
   end
 end
