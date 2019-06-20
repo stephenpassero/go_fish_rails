@@ -1,5 +1,5 @@
 h2 How many players do you want to play with?
-= form_for @game, url: game_create_url() do |f|
+= form_for @game, url: games_url do |f|
   = f.label "Number of Players"
   = f.number_field :players, required: true, max: 6, min: 2
   = f.submit "Create Game"

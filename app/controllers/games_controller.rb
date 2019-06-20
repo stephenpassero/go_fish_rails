@@ -1,7 +1,7 @@
-class GameController < ApplicationController
+class GamesController < ApplicationController
   def create
     @game = Game.create(game_params)
-    redirect_to game_show_path(id: @game)
+    redirect_to @game
   end
 
   def index
@@ -27,7 +27,7 @@ class GameController < ApplicationController
     if game.users.length == 0
       game.delete
     end
-    redirect_to game_index_path
+    redirect_to games_path
   end
 
   private

@@ -1,0 +1,11 @@
+h1 = "Welcome, #{@user_name}"
+
+h2 Create a new game
+h3 = link_to "Create Game", new_game_path
+
+h2 Pending Games
+- if @pending_games.length == 0
+  p There are not pending games.
+- else
+  - @pending_games.each_with_index do |pending_game, index|
+    p = link_to "Game ##{index + 1}: #{pending_game.players} total players, #{pending_game.players - pending_game.users.length} open spots", game_path(pending_game)

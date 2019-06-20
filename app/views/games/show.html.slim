@@ -6,6 +6,4 @@
   h3 Players Joined:
   - @game.users.each do |user|
     p = user.name
-    h3 = link_to "Leave Lobby", game_leave_path(id: @game)
-    - if @game.users.length == @game.players
-      = react_component('Game', {}, {prerender: true})
+  h3 = link_to "Leave Lobby", games_leave_path(id: @game.id), method: :post
