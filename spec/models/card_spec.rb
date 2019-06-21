@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Card, type: :model do
   before(:each) do
-    @card = Card.new('5', 'Clubs')
+    @card = Card.new(rank: '5', suit: 'Clubs')
   end
   it "has a rank" do
     expect(@card.rank).to eq('5')

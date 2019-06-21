@@ -21,17 +21,17 @@ class GamesController < ApplicationController
     redirect_to game
   end
 
-  # Is this a good idea?
   def show
-    @current_player = User.find(session[:current_user]).name
     @game = Game.find(params[:id])
     if @game.users.length == @game.players
       @game.update(start_at: Time.now)
       @game.start
     end
+    @player_name = User.find(session[:current_user]).name
+    @initial_state = @game.game_logic.player_data(@player_name)
     respond_to do |format|
       format.html
-      format.json { render :json => @game.game_logic }
+      format.json { render :json => @initial_state }
     end
   end
 

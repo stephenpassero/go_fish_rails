@@ -1,6 +1,6 @@
 class Player
   attr_reader(:name, :cards, :pairs)
-  def initialize(name, cards = [], pairs = [])
+  def initialize(name:, cards: [], pairs: [])
     @name = name
     @cards = cards
     @pairs = pairs
@@ -38,17 +38,25 @@ class Player
 
   def self.from_json(hash)
     Player.new(
-      hash['name'],
-      hash['cards'].map {|card| Card.from_json(card)},
-      hash['pairs'].map {|pair| Card.from_json(pair)}
+      name: hash['name'],
+      cards: hash['cards'].map {|card| Card.from_json(card)},
+      pairs: hash['pairs'].map {|pair| Card.from_json(pair)}
     )
+  end
+
+  def as_opponent_json
+    {
+      'name' => @name,
+      'cards_left' => @cards.length,
+      'pairs' => @pairs.map(&:as_json)
+    }
   end
 
   def as_json
     {
       'name' => @name,
-      'cards' => @cards.map {|card| card.as_json},
-      'pairs' => @pairs.map {|pair| pair.as_json}
+      'cards' => @cards.map(&:as_json),
+      'pairs' => @pairs.map(&:as_json)
     }
   end
 end

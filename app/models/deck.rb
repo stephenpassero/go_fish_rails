@@ -1,13 +1,13 @@
 class Deck
   attr_reader(:cards)
-  def initialize(cards = [])
+  def initialize(cards: [])
     ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'J', 'K']
     suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
     @cards = cards
     if @cards.length == 0
       ranks.each do |rank|
         suits.each do |suit|
-          card = Card.new(rank, suit)
+          card = Card.new(rank: rank, suit: suit)
           @cards.push(card)
         end
       end
@@ -35,10 +35,14 @@ class Deck
   end
 
   def self.from_json(hash)
-    Deck.new(hash['cards'].map {|card| Card.from_json(card)})
+    Deck.new(cards: hash['cards'].map {|card| Card.from_json(card)})
+  end
+
+  def game_as_json
+    {'cards' => @cards.length}
   end
 
   def as_json
-    {'cards' => @cards.map {|card| card.as_json}}
+    {'cards' => @cards.map(&:as_json)}
   end
 end

@@ -6,9 +6,8 @@ class Game < ApplicationRecord
   serialize :game_logic, GameLogic
 
   def start()
-    gameLogic = GameLogic.new(users.map {|user| user.name})
-    gameLogic.start_game
-    self.game_logic = gameLogic
-    binding.pry
+    game_logic_class = GameLogic.new(player_names: users.map(&:name))
+    game_logic_class.start_game
+    update(game_logic: game_logic_class)
   end
 end

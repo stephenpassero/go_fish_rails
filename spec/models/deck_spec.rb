@@ -24,7 +24,7 @@ RSpec.describe Deck, type: :model do
 
   describe '#as_json' do
     it 'converts an object to a hash' do
-      @deck.set_deck([Card.new('5', 'Diamonds'), Card.new('J', 'Spades')])
+      @deck.set_deck([Card.new(rank: '5', suit: 'Diamonds'), Card.new(rank: 'J', suit: 'Spades')])
       expect(@deck.as_json).to include_json(
         cards: [{rank: '5', suit: 'Diamonds'}, {rank: 'J', suit: 'Spades'}]
       )
@@ -33,7 +33,7 @@ RSpec.describe Deck, type: :model do
 
   describe '#from_json' do
     it 'convert a hash to an object' do
-      @deck.set_deck([Card.new('5', 'Diamonds'), Card.new('J', 'Spades')])
+      @deck.set_deck([Card.new(rank: '5', suit: 'Diamonds'), Card.new(rank: 'J', suit: 'Spades')])
       hash = @deck.as_json
       new_deck = Deck.from_json(hash)
       expect(new_deck.cards_left).to eq(@deck.cards_left)
