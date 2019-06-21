@@ -18,17 +18,17 @@ class GameLogic
 
   def self.from_json(hash)
     GameLogic.new(
-      hash[:player_names],
-      Deck.from_json(hash[:deck]),
-      hash[:player_turn],
-      hash[:players].map {|player| Player.from_json(player)}
+      hash['player_names'],
+      Deck.from_json(hash['deck']),
+      hash['player_turn'],
+      hash['players'].map {|player| Player.from_json(player)}
     )
   end
 
   # Use the as_json and from_json methods here
   def self.load(hash)
    return nil if hash.blank?
-   get_game_object(hash).to_json
+   GameLogic.from_json(hash)
  end
 
  def self.dump(obj)
@@ -37,10 +37,10 @@ class GameLogic
 
  def as_json(*)
    {
-     player_names: @player_names,
-     deck: @deck.as_json,
-     player_turn: @player_turn,
-     players: @players.map {|player| player.as_json }
+     'player_names' => @player_names,
+     'deck' => @deck.as_json,
+     'player_turn' => @player_turn,
+     'players' => @players.map {|player| player.as_json }
    }
  end
 end

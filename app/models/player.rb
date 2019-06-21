@@ -38,17 +38,17 @@ class Player
 
   def self.from_json(hash)
     Player.new(
-      hash[:name],
-      hash[:cards].map {|card| Card.from_json(card)},
-      hash[:pairs].map {|pair| Card.from_json(pair)}
+      hash['name'],
+      hash['cards'].map {|card| Card.from_json(card)},
+      hash['pairs'].map {|pair| Card.from_json(pair)}
     )
   end
 
   def as_json
     {
-      name: @name,
-      cards: @cards.map {|card| card.as_json},
-      pairs: @pairs.map {|pair| pair.as_json}
+      'name' => @name,
+      'cards' => @cards.map {|card| card.as_json},
+      'pairs' => @pairs.map {|pair| pair.as_json}
     }
   end
 end

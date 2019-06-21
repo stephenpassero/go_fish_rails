@@ -14,7 +14,7 @@ RSpec.describe Card, type: :model do
 
   describe '#as_json' do
     it 'can convert a card to a hash' do
-      expect(@card.as_json).to eq({rank: '5', suit: 'Clubs'})
+      expect(@card.as_json).to eq({'rank'=> '5', 'suit'=> 'Clubs'})
     end
   end
 

@@ -9,5 +9,6 @@ class Game < ApplicationRecord
     gameLogic = GameLogic.new(users.map {|user| user.name})
     gameLogic.start_game
     self.game_logic = gameLogic
+    binding.pry
   end
 end

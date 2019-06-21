@@ -6,10 +6,10 @@ class Card
   end
 
   def self.from_json(hash)
-    Card.new(hash[:rank], hash[:suit])
+    Card.new(hash['rank'], hash['suit'])
   end
 
   def as_json
-    {rank: self.rank, suit: self.suit}
+    {'rank'=> @rank, 'suit'=> @suit}
   end
 end

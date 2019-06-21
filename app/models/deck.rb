@@ -35,10 +35,10 @@ class Deck
   end
 
   def self.from_json(hash)
-    Deck.new(hash[:cards].map {|card| Card.from_json(card)})
+    Deck.new(hash['cards'].map {|card| Card.from_json(card)})
   end
 
   def as_json
-    {cards: @cards.map {|card| card.as_json}}
+    {'cards' => @cards.map {|card| card.as_json}}
   end
 end
