@@ -19,7 +19,7 @@ class GamesController < ApplicationController
   def join
     game = Game.find(params[:format])
     user = User.find(session[:current_user])
-    GameUser.create(game_id: game.id, user_id: user.id)
+    GameUser.create(game_id: game.id, user_id: user.id) unless game.users.include?(user)
     redirect_to game
   end
 

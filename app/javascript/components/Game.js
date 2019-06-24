@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PlayerView from './PlayerView'
 import OpponentView from './OpponentView'
+import Player from '../models/Player'
+import Opponent from '../models/Opponent'
 
 export default class Game extends React.Component {
   static propTypes = {
@@ -13,8 +15,14 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerData: this.props.playerData
+      playerData: this.props.playerData,
+      isLoaded: false,
+      player: '',
+      selectedRank: '',
+      selectedOpponent: ''
     }
+    this.setUpPlayer()
+    this.setUpOpponents()
   }
 
   componentDidMount() {
@@ -25,18 +33,55 @@ export default class Game extends React.Component {
       .then(res => res.json())
       .then((data) => {
         this.setState({ playerData: data })
-        console.log(this.state.playerData)
+        this.state.isLoaded = true
       })
   }
 
+  setUpPlayer() {
+    if (this.state.isLoaded) {
+      this.state.player = new Player(
+        this.props.playerName,
+        this.state.playerData.player.cards,
+        this.state.playerData.player.pairs
+      )
+    } else {
+      this.state.player = new Player(
+        this.props.playerName,
+        this.props.playerData.player.cards,
+        this.props.playerData.player.pairs
+      )
+    }
+  }
+
+  setUpOpponents() {
+    if (this.state.isLoaded) {
+      this.state.opponents = this.state.playerData.opponents.map((opponent) => {
+        return new Opponent(
+          opponent.name,
+          opponent.cards_left,
+          opponent.pairs
+        )
+      })
+    } else {
+      this.state.opponents = this.props.playerData.opponents.map((opponent) => {
+        return new Opponent(
+          opponent.name,
+          opponent.cards_left,
+          opponent.pairs
+        )
+      })
+    }
+  }
+
   renderOpponents() {
-    return this.state.playerData.opponents.map((opponent) => { // eslint-disable-line arrow-body-style
+    return this.state.opponents.map((opponent) => { // eslint-disable-line arrow-body-style
       return (
         <OpponentView
-          key={opponent.name}
-          name={opponent.name}
-          numOfCards={opponent.cards_left}
-          pairs={opponent.pairs}
+          key={opponent.name()}
+          name={opponent.name()}
+          numOfCards={opponent.totalCards()}
+          pairs={opponent.pairs()}
+          selectedOpponent={this.state.selectedOpponent}
         />
       )
     })
@@ -46,7 +91,12 @@ export default class Game extends React.Component {
     return (
       <div>
         {this.renderOpponents()}
-        <PlayerView player={this.state.playerData.player} name={this.props.playerName} />
+        <PlayerView
+          selectedRank={this.state.selectedRank}
+          player={this.state.player}
+          name={this.state.player.name()}
+          pairs={this.state.player.pairs()}
+        />
       </div>
     )
   }
