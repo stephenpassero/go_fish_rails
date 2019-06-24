@@ -1,7 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class CardView extends React.Component {
+export default class CardView extends React.Component {
+  static propTypes = {
+    rank: PropTypes.string.isRequired,
+    suit: PropTypes.string.isRequired
+  }
+
   render() {
     // Make this display actual cards images later
     return (
@@ -9,10 +14,3 @@ class CardView extends React.Component {
     )
   }
 }
-
-CardView.propTypes = {
-  rank: PropTypes.string.isRequired,
-  suit: PropTypes.string.isRequired
-}
-
-export default CardView

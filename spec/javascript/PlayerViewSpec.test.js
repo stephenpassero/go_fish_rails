@@ -4,11 +4,13 @@ import PlayerView from 'components/PlayerView' // eslint-disable-line import/no-
 
 describe('PlayerView', () => {
   let wrapper
-
   beforeEach(() => {
     wrapper = shallow(<PlayerView
       name='Player1'
-      player={{ cards: [{ rank: '4', suit: 'Clubs' }, { rank: '8', suit: 'Hearts' }] }}
+      player={{
+        cards: [{ rank: '4', suit: 'Clubs' }, { rank: '8', suit: 'Hearts' }],
+        pairs: []
+      }}
     />)
   })
 
