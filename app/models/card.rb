@@ -10,6 +10,6 @@ class Card
   end
 
   def as_json
-    {'rank'=> @rank, 'suit'=> @suit}
+    {'rank'=> rank, 'suit'=> suit}
   end
 end

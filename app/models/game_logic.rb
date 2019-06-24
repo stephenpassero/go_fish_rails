@@ -18,7 +18,7 @@ class GameLogic
   end
 
   def find_player_by_name(name)
-    @players.detect {|player| player.name == name}
+    players.detect {|player| player.name == name}
   end
 
 

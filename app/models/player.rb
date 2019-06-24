@@ -7,7 +7,7 @@ class Player
   end
 
   def cards_left
-    @cards.length
+    cards.length
   end
 
   def set_hand(cards)
@@ -15,7 +15,7 @@ class Player
   end
 
   def cards_in_hand(rank)
-    @cards = @cards.select {|card| card.rank == rank}
+    cards.select {|card| card.rank == rank}
   end
 
   def add_cards(cards)
@@ -28,7 +28,7 @@ class Player
 
   def pair_cards
     @cards.each do |originalCard|
-      sameRank = @cards.select {|card| card.rank == originalCard.rank}
+      sameRank = cards.select {|card| card.rank == originalCard.rank}
       if sameRank.length == 4
         @pairs.push(sameRank[0].rank)
         @cards = @cards.select {|card| !sameRank.include?(card)}
@@ -46,17 +46,17 @@ class Player
 
   def as_opponent_json
     {
-      'name' => @name,
-      'cards_left' => @cards.length,
-      'pairs' => @pairs.map(&:as_json)
+      'name' => name,
+      'cards_left' => cards.length,
+      'pairs' => pairs.map(&:as_json)
     }
   end
 
   def as_json
     {
-      'name' => @name,
-      'cards' => @cards.map(&:as_json),
-      'pairs' => @pairs.map(&:as_json)
+      'name' => name,
+      'cards' => cards.map(&:as_json),
+      'pairs' => pairs.map(&:as_json)
     }
   end
 end

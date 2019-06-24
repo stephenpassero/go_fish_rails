@@ -15,7 +15,7 @@ class Deck
   end
 
   def cards_left
-    @cards.length
+    cards.length
   end
 
   def shuffle
@@ -39,10 +39,10 @@ class Deck
   end
 
   def game_as_json
-    {'cards' => @cards.length}
+    {'cards' => cards.length}
   end
 
   def as_json
-    {'cards' => @cards.map(&:as_json)}
+    {'cards' => cards.map(&:as_json)}
   end
 end
