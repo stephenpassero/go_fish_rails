@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import PlayerView from './PlayerView'
 
 class Game extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      playerData: ''
+      playerData: this.props.initialState
     }
   }
 
@@ -17,14 +18,13 @@ class Game extends React.Component {
       .then(res => res.json())
       .then((data) => {
         this.setState({ playerData: data })
-        console.log(this.state.playerData)
       })
   }
 
   render() {
     return (
       <div>
-        <h3>{this.props.playerName}</h3>
+        <PlayerView player={this.state.playerData.player} name={this.props.playerName} />
       </div>
     )
   }

@@ -28,7 +28,7 @@ class GamesController < ApplicationController
       @game.start
     end
     @player_name = User.find(session[:current_user]).name
-    @initial_state = @game.game_logic.player_data(@player_name)
+    @initial_state = @game.game_logic.player_data(@player_name) if @game.game_logic
     respond_to do |format|
       format.html
       format.json { render :json => @initial_state }
