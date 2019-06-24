@@ -5,7 +5,7 @@ class CardView extends React.Component {
   render() {
     // Make this display actual cards images later
     return (
-      <p>{this.props.rank} of {this.props.suit}</p>
+      <img alt={`${this.props.rank} of ${this.props.suit}`} src='#' />
     )
   }
 }

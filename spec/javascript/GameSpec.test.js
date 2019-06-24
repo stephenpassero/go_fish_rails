@@ -15,13 +15,7 @@ describe('Game', () => {
     />)
   })
 
-  it('renders a component', () => {
-    expect(wrapper.text()).toContain('Stephen')
-  })
-
-  it('renders a player with cards', () => {
-    expect(wrapper.find('.playerName').text()).toEqual('Stephen')
-    // I'm setting how many cards the player has in ./initialState.js
-    expect(wrapper.find('.card').length).toEqual(2)
+  it('renders a one player', () => {
+    expect(wrapper.find('PlayerView').length).toEqual(1)
   })
 })
