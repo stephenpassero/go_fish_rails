@@ -1,7 +1,8 @@
 class GamesController < ApplicationController
   def create
     @game = Game.create(game_params)
-    User.find(session[:current_user]).update(game_id: @game.id)
+    user = User.find(session[:current_user])
+    GameUser.create(game_id: @game.id, user_id: user.id)
     redirect_to @game
   end
 
@@ -17,7 +18,8 @@ class GamesController < ApplicationController
 
   def join
     game = Game.find(params[:format])
-    User.find(session[:current_user]).update(game_id: game.id)
+    user = User.find(session[:current_user])
+    GameUser.create(game_id: game.id, user_id: user.id)
     redirect_to game
   end
 

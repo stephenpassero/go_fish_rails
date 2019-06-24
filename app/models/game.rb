@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
-  has_many :users
+  has_many :game_users
+  has_many :users, through: :game_users
   scope :pending, -> {where(start_at: nil)}
   scope :in_progress, -> {where.not(start_at: nil).where(end_at: nil)}
 
