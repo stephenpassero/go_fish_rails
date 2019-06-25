@@ -11,18 +11,16 @@ export default class PlayerView extends React.Component {
   }
 
   renderCards(cards) {
-    return cards.map((card) => {
-      return (
-        <CardView
-          key={`${card.rank}${card.suit}`}
-          className='card'
-          rank={card.rank}
-          suit={card.suit}
-          selectedRank={this.props.selectedRank}
-          updateSelectedRank={this.props.updateSelectedRank}
-        />
-      )
-    })
+    return cards.map(card => (
+      <CardView
+        key={`${card.rank}${card.suit}`}
+        className='card'
+        rank={card.rank}
+        suit={card.suit}
+        selectedRank={this.props.selectedRank}
+        updateSelectedRank={this.props.updateSelectedRank}
+      />
+    ))
   }
 
   render() {

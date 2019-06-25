@@ -1,8 +1,8 @@
 export default class Player {
-  constructor(name, cards, pairs) {
-    this._name = name
-    this._cards = cards
-    this._pairs = pairs
+  constructor(player) {
+    this._name = player.name
+    this._cards = player.cards
+    this._pairs = player.pairs
   }
 
   name() {

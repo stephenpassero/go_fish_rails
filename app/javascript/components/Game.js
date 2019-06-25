@@ -15,8 +15,7 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerData: this.props.playerData,
-      isLoaded: false,
+      playerData: props.playerData,
       player: '',
       selectedRank: '',
       selectedOpponent: ''
@@ -25,6 +24,7 @@ export default class Game extends React.Component {
     this.setUpOpponents()
   }
 
+  // Pull into refresh state button
   componentDidMount() {
     fetch(`/games/${this.props.id}`, { headers: {
       Accept: 'application/json',
@@ -33,44 +33,22 @@ export default class Game extends React.Component {
       .then(res => res.json())
       .then((data) => {
         this.setState({ playerData: data })
-        this.state.isLoaded = true
+        const { opponents } = this.state.playerData
+        this.setState({ player: new Player(this.state.playerData.player) })
+        this.setState({ opponents: opponents.map(opponent => new Opponent(opponent)) })
       })
   }
 
   setUpPlayer() {
-    if (this.state.isLoaded) {
-      this.state.player = new Player(
-        this.props.playerName,
-        this.state.playerData.player.cards,
-        this.state.playerData.player.pairs
-      )
-    } else {
-      this.state.player = new Player(
-        this.props.playerName,
-        this.props.playerData.player.cards,
-        this.props.playerData.player.pairs
-      )
-    }
+    this.setState(() => (
+      { player: new Player(this.props.playerData.player) }
+    ))
   }
 
   setUpOpponents() {
-    if (this.state.isLoaded) {
-      this.state.opponents = this.state.playerData.opponents.map((opponent) => {
-        return new Opponent(
-          opponent.name,
-          opponent.cards_left,
-          opponent.pairs
-        )
-      })
-    } else {
-      this.state.opponents = this.props.playerData.opponents.map((opponent) => {
-        return new Opponent(
-          opponent.name,
-          opponent.cards_left,
-          opponent.pairs
-        )
-      })
-    }
+    this.setState(() => (
+      { opponents: this.props.playerData.opponents.map(opponent => new Opponent(opponent)) }
+    ))
   }
 
   updateSelectedRank(rank) {
@@ -82,18 +60,16 @@ export default class Game extends React.Component {
   }
 
   renderOpponents() {
-    return this.state.opponents.map((opponent) => { // eslint-disable-line arrow-body-style
-      return (
-        <OpponentView
-          key={opponent.name()}
-          name={opponent.name()}
-          numOfCards={opponent.totalCards()}
-          pairs={opponent.pairs()}
-          selectedOpponent={this.state.selectedOpponent}
-          updateSelectedOpponent={this.updateSelectedOpponent}
-        />
-      )
-    })
+    return this.state.opponents.map(opponent => (
+      <OpponentView
+        key={opponent.name()}
+        name={opponent.name()}
+        numOfCards={opponent.totalCards()}
+        pairs={opponent.pairs()}
+        selectedOpponent={this.state.selectedOpponent}
+        updateSelectedOpponent={this.updateSelectedOpponent}
+      />
+    ))
   }
 
   render() {

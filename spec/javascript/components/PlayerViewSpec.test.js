@@ -9,7 +9,9 @@ describe('PlayerView', () => {
       name='Player1'
       player={{
         cards: [{ rank: '4', suit: 'Clubs' }, { rank: '8', suit: 'Hearts' }],
-        pairs: []
+        pairs: [],
+        updateSelectedRank: { jest.fn() },
+        selectedRank: '3'
       }}
     />)
   })
