@@ -36,6 +36,7 @@ export default class Game extends React.Component {
 
   updateSelectedRank(rank) {
     this.setState({ selectedRank: rank })
+    console.log(this.state.selectedRank)
   }
 
   updateSelectedOpponent(opponentName) {
@@ -50,7 +51,7 @@ export default class Game extends React.Component {
         numOfCards={opponent.totalCards()}
         pairs={opponent.pairs()}
         selectedOpponent={this.state.selectedOpponent}
-        updateSelectedOpponent={this.updateSelectedOpponent}
+        updateSelectedOpponent={this.updateSelectedOpponent.bind(this)}
       />
     ))
   }
@@ -61,7 +62,7 @@ export default class Game extends React.Component {
         {this.renderOpponents()}
         <PlayerView
           selectedRank={this.state.selectedRank}
-          updateSelectedRank={this.updateSelectedRank}
+          updateSelectedRank={this.updateSelectedRank.bind(this)}
           player={this.state.player}
           name={this.state.player.name()}
           pairs={this.state.player.pairs()}

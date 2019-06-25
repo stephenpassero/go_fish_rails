@@ -6,7 +6,16 @@ export default class OpponentView extends React.Component {
   static propTypes = {
     numOfCards: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    pairs: PropTypes.array.isRequired
+    pairs: PropTypes.array.isRequired,
+    selectedOpponent: PropTypes.string.isRequired,
+    updateSelectedOpponent: PropTypes.func.isRequired
+  }
+
+  getClasses() {
+    if (this.props.selectedOpponent === this.props.name) {
+      return 'opponent selected'
+    }
+    return 'opponent'
   }
 
   // Make this display actual cards images later
@@ -18,9 +27,13 @@ export default class OpponentView extends React.Component {
     return pairs.map(pair => <CardView key={`${pair.rank}`} rank={pair.rank} suit={pair.suit} />)
   }
 
+
   render() {
     return (
-      <div>
+      <div
+        className={this.getClasses()}
+        onClick={this.props.updateSelectedOpponent.bind(this, this.props.name)}
+      >
         <h3>{this.props.name}</h3>
         {this.renderCardBacks(this.props.numOfCards)}
         {this.renderPairs(this.props.pairs)}

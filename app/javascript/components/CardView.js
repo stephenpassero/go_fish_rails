@@ -17,7 +17,6 @@ export default class CardView extends React.Component {
           className='selected'
           alt={`${this.props.rank} of ${this.props.suit}`}
           src='#'
-          onClick={this.props.updateSelectedRank.bind(this, this.props.rank)}
         />
       )
     }

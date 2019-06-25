@@ -1,3 +1,104 @@
 // Place all the styles related to the game controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// body {
+//   margin: 0;
+//   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+//     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+//     sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   background-color: #277714;
+// }
+//
+// code {
+//   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+//     monospace;
+// }
+//
+// .selected {
+//   border-color: #eec64f;
+//   border-width: 6px;
+//   border-style: solid;
+//   border-radius: 3px;
+// }
+//
+// input {
+//   border-radius: 5px;
+// }
+//
+// img {
+//   margin: 0 -12.5px 0 -12.5px;
+// }
+//
+// form {
+//   max-width: 600px;
+//   margin: 100px auto;
+//   justify-content: center;
+//   text-align: center;
+// }
+//
+// label {
+//   margin: 10px;
+// }
+//
+// .opponent {
+//   margin: 20px;
+//   text-align:center;
+//   padding: 0 20px;
+// }
+//
+// .player {
+//   max-width: 550px;
+//   margin: 5px auto;
+//   text-align: center;
+// }
+//
+// .endGame {
+//   margin: 20px auto;
+//   text-align: center;
+// }
+//
+// .log {
+//   text-align: left;
+//   display: inline-block;
+//   position: fixed;
+//   left: 10px;
+//   bottom: 10%;
+// }
+//
+// .logStatement {
+//   margin: 3px;
+// }
+//
+// .flex-container {
+//   display: flex;
+//   justify-content: space-around;
+//   margin: 0 auto;
+//   flex-wrap: nowrap;
+// }
+//
+// .deck {
+//   margin: 50px auto;
+//   text-align:center;
+// }
+//
+// .runNextRound {
+//   display: flex;
+//   justify-content: center;
+// }
+//
+// .requestCards {
+//   display: flex;
+//   justify-content: center;
+//   margin: 10px 0 20px 0;
+// }
+
+
+.selected {
+  border-color: #eec64f;
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 3px;
+}
