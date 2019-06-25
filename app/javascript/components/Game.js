@@ -4,6 +4,7 @@ import PlayerView from './PlayerView'
 import OpponentView from './OpponentView'
 import Player from '../models/Player'
 import Opponent from '../models/Opponent'
+import RequestCardsButton from './RequestCardsButton'
 
 export default class Game extends React.Component {
   static propTypes = {
@@ -56,6 +57,17 @@ export default class Game extends React.Component {
     ))
   }
 
+  renderRequestCards() {
+    if (this.state.selectedRank === '' || this.state.selectedOpponent === '') return ''
+    return (
+      <RequestCardsButton
+        gameId={this.props.id}
+        selectedRank={this.state.selectedRank}
+        selectedOpponent={this.state.selectedOpponent}
+      />
+    )
+  }
+
   render() {
     return (
       <div>
@@ -67,6 +79,7 @@ export default class Game extends React.Component {
           name={this.state.player.name()}
           pairs={this.state.player.pairs()}
         />
+        {this.renderRequestCards()}
       </div>
     )
   }

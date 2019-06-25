@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  protect_from_forgery with: :null_session
   def create
     @game = Game.create(game_params)
     user = User.find(session[:current_user])
@@ -44,6 +45,16 @@ class GamesController < ApplicationController
       game.delete
     end
     redirect_to games_path
+  end
+
+  def run_round
+    game = Game.find(params[:gameId])
+    player = game.game_logic.player_names[game.game_logic.player_turn - 1]
+    target = params[:selectedOpponent]
+    rank = params[:selectedRank]
+    # game.run_round(player, target, rank)
+    # Initiate pusher here
+    redirect_to game
   end
 
   private

@@ -1,7 +1,7 @@
 class Deck
   attr_reader(:cards)
   def initialize(cards: [])
-    ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'J', 'K']
+    ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
     @cards = cards
     if @cards.length == 0
