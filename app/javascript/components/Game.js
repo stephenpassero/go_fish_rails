@@ -73,6 +73,14 @@ export default class Game extends React.Component {
     }
   }
 
+  updateSelectedRank(rank) {
+    this.setState({ selectedRank: rank })
+  }
+
+  updateSelectedOpponent(opponentName) {
+    this.setState({ selectedOpponent: opponentName })
+  }
+
   renderOpponents() {
     return this.state.opponents.map((opponent) => { // eslint-disable-line arrow-body-style
       return (
@@ -82,6 +90,7 @@ export default class Game extends React.Component {
           numOfCards={opponent.totalCards()}
           pairs={opponent.pairs()}
           selectedOpponent={this.state.selectedOpponent}
+          updateSelectedOpponent={this.updateSelectedOpponent}
         />
       )
     })
@@ -93,6 +102,7 @@ export default class Game extends React.Component {
         {this.renderOpponents()}
         <PlayerView
           selectedRank={this.state.selectedRank}
+          updateSelectedRank={this.updateSelectedRank}
           player={this.state.player}
           name={this.state.player.name()}
           pairs={this.state.player.pairs()}
