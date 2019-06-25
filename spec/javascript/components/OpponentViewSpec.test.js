@@ -10,6 +10,8 @@ describe('OpponentView', () => {
       name='Player2'
       numOfCards={4}
       pairs={[{ rank: '3', suit: 'Spades' }]}
+      selectedOpponent="Player2"
+      updateSelectedOpponent={jest.fn()}
     />)
   })
 
@@ -24,5 +26,9 @@ describe('OpponentView', () => {
   it('shows the opponent\'s pairs', () => {
     // The pairs are the only actual card images
     expect(wrapper.find('CardView').length).toEqual(1)
+  })
+
+  it('highlights the selected opponent', () => {
+    expect(wrapper.find('div').hasClass('selected')).toEqual(true)
   })
 })

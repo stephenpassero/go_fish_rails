@@ -17,4 +17,8 @@ describe('Game', () => {
   it('renders a player', () => {
     expect(wrapper.find('PlayerView').length).toEqual(1)
   })
+
+  it('renders an opponent', () => {
+    expect(wrapper.find('OpponentView').length).toEqual(1)
+  })
 })

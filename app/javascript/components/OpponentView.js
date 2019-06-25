@@ -24,7 +24,7 @@ export default class OpponentView extends React.Component {
   }
 
   renderPairs(pairs) {
-    return pairs.map(pair => <CardView key={`${pair.rank}`} rank={pair.rank} suit={pair.suit} />)
+    return pairs.map(pair => <CardView key={`${pair.rank}`} updateSelectedRank={() => {}} rank={pair.rank} suit={pair.suit} />)
   }
 
 

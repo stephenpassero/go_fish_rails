@@ -6,7 +6,7 @@ export default class CardView extends React.Component {
     rank: PropTypes.string.isRequired,
     suit: PropTypes.string.isRequired,
     selectedRank: PropTypes.string,
-    updateSelectedRank: PropTypes.func
+    updateSelectedRank: PropTypes.func.isRequired
   }
 
   render() {

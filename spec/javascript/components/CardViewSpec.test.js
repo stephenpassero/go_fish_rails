@@ -9,6 +9,7 @@ describe('CardView', () => {
     wrapper = shallow(<CardView
       rank="5"
       suit="Hearts"
+      selectedRank='5'
       updateSelectedRank={jest.fn()}
     />)
   })
@@ -17,5 +18,9 @@ describe('CardView', () => {
     expect(wrapper.find('img').length).toEqual(1)
     // It should be the actual card, not just a random img element
     expect(wrapper.find('img[alt="5 of Hearts"]').length).toEqual(1)
+  })
+
+  it('highlights the selected rank', () => {
+    expect(wrapper.find('img').hasClass('selected')).toEqual(true)
   })
 })
