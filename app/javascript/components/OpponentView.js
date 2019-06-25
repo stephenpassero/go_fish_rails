@@ -19,7 +19,6 @@ export default class OpponentView extends React.Component {
     return 'opponent'
   }
 
-  // Make this display actual cards images later
   renderCardBacks(numOfCards) {
     return [...new Array(numOfCards).keys()].map(index => <img alt='Card Back' key={index} src={CardBack} />)
   }

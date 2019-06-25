@@ -18,19 +18,17 @@ export default class CardView extends React.Component {
     updateSelectedRank: PropTypes.func.isRequired
   }
 
-  render() {
-    // Make this display actual cards images later
+  getClasses() {
     if (this.props.selectedRank === this.props.rank) {
-      return (
-        <img
-          className='selected'
-          alt={`${this.props.rank} of ${this.props.suit}`}
-          src={cards[`${this.props.suit.charAt(0).toLowerCase()}${this.props.rank.toLowerCase()}`]}
-        />
-      )
+      return 'card selected'
     }
+    return 'card'
+  }
+
+  render() {
     return (
       <img
+        className={this.getClasses()}
         alt={`${this.props.rank} of ${this.props.suit}`}
         src={cards[`${this.props.suit.charAt(0).toLowerCase()}${this.props.rank.toLowerCase()}`]}
         onClick={this.props.updateSelectedRank.bind(this, this.props.rank)}

@@ -1,10 +1,6 @@
 class SystemHelper
   def self.create_sessions(num_of_players)
-    sessions = []
-    num_of_players.times do
-      sessions.push(Capybara::Session.new(:selenium_chrome_headless, Rails.application))
-    end
-    sessions
+    num_of_players.times.map {Capybara::Session.new(:selenium_chrome_headless, Rails.application)}
   end
 
   def self.login_users(sessions)
