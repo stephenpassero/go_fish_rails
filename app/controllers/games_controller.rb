@@ -52,7 +52,8 @@ class GamesController < ApplicationController
     player = game.game_logic.player_names[game.game_logic.player_turn - 1]
     target = params[:selectedOpponent]
     rank = params[:selectedRank]
-    # game.run_round(player, target, rank)
+    game.game_logic.run_turn(player, target, rank)
+    game.save
     # Initiate pusher here
     redirect_to game
   end

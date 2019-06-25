@@ -57,4 +57,45 @@ RSpec.describe GameLogic, type: :model do
       expect(@game.players).not_to eq(nil)
     end
   end
+
+  context 'running a game' do
+    before(:each) do
+      @game = GameLogic.new(player_names: ['Player1', 'Player2'])
+      @game.start_game
+      @player1 = @game.find_player_by_name('Player1')
+      @player2 = @game.find_player_by_name('Player2')
+      @player1.set_hand([Card.new(rank: '3', suit: 'Diamonds')])
+      @player2.set_hand([Card.new(rank: '3', suit: 'Clubs')])
+    end
+
+    it 'requests a card from another player, increments the player turn, and refills cards as need be' do
+      @game.run_turn(@player1.name, @player2.name, '3')
+      expect(@player1.cards_left).to eq(2)
+      expect(@player2.cards_left).to eq(5)
+      # Player turn shouldn't have changed because the player got the card he asked for
+      expect(@game.player_turn).to eq(1)
+    end
+
+    describe '#request_cards' do
+      it 'takes a card from a player if that player has the card requested' do
+        @game.request_cards(@player1, @player2, '3')
+        expect(@player1.cards_left).to eq(2)
+        expect(@player2.cards_left).to eq(0)
+      end
+
+      it 'goes fishing when the player doesn\'t have the card requested' do
+        status = @game.request_cards(@player1, @player2, '8')
+        expect(status).to eq('Go Fish')
+        expect(@player2.cards_left).to eq(1)
+      end
+    end
+
+    describe '#refill_cards' do
+      it 'gives a player 5 cards when they have no cards' do
+        @player1.set_hand([])
+        @game.refill_cards(@player1)
+        expect(@player1.cards_left).to eq(5)
+      end
+    end
+  end
 end

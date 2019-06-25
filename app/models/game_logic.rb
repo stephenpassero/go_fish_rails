@@ -21,6 +21,40 @@ class GameLogic
     players.detect {|player| player.name == name}
   end
 
+  def refill_cards(player)
+    if player.cards_left == 0
+      player.add_cards(deck.deal(5))
+    end
+  end
+
+  def increment_player_turn
+    @player_turn += 1
+    if player_turn > players.length
+      player_turn = 1
+    end
+  end
+
+  def request_cards(player, target, rank)
+    cards = target.cards_in_hand(rank)
+    if cards.length > 0
+      target.remove_cards_by_rank(rank)
+      player.add_cards(cards)
+      return true
+    end
+    'Go Fish'
+  end
+
+  def run_turn(player_name, target_name, rank)
+    player = find_player_by_name(player_name)
+    target = find_player_by_name(target_name)
+    if request_cards(player, target, rank) == 'Go Fish'
+      player.add_cards(deck.deal(1))
+      increment_player_turn
+    end
+    refill_cards(target)
+    # Add game log here
+    # Add pairing cards here
+  end
 
   def self.from_json(hash)
     GameLogic.new(

@@ -44,6 +44,12 @@ export default class Game extends React.Component {
     this.setState({ selectedOpponent: opponentName })
   }
 
+  renderFetchGame() {
+    return (
+      <button type='button' onClick={this.fetchGame.bind(this)}>Fetch Game</button>
+    )
+  }
+
   renderOpponents() {
     return this.state.opponents.map(opponent => (
       <OpponentView
@@ -80,6 +86,7 @@ export default class Game extends React.Component {
           pairs={this.state.player.pairs()}
         />
         {this.renderRequestCards()}
+        {this.renderFetchGame()}
       </div>
     )
   }
