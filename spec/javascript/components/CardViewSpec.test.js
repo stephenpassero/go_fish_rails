@@ -9,6 +9,7 @@ describe('CardView', () => {
     wrapper = shallow(<CardView
       rank="5"
       suit="Hearts"
+      updateSelectedRank={jest.fn()}
     />)
   })
 

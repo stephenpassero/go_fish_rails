@@ -3,7 +3,13 @@ import Opponent from 'models/Opponent' // eslint-disable-line import/no-unresolv
 describe('Opponent', () => {
   let opponent
   beforeEach(() => {
-    opponent = new Opponent('Bot', 7, [{ rank: '9', suit: 'Spades' }])
+    opponent = new Opponent(
+      {
+        name: 'Bot',
+        cards_left: 7,
+        pairs: [{ rank: '9', suit: 'Spades' }]
+      }
+    )
   })
 
   it('has a name', () => {
