@@ -8,47 +8,30 @@ import Opponent from '../models/Opponent'
 export default class Game extends React.Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
-    playerName: PropTypes.string.isRequired,
     playerData: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      playerData: props.playerData,
-      player: '',
+      player: new Player(props.playerData.player),
+      opponents: props.playerData.opponents.map(opponent => new Opponent(opponent)),
       selectedRank: '',
       selectedOpponent: ''
     }
-    this.setUpPlayer()
-    this.setUpOpponents()
   }
 
-  // Pull into refresh state button
-  componentDidMount() {
+  fetchGame() {
     fetch(`/games/${this.props.id}`, { headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     } })
       .then(res => res.json())
       .then((data) => {
-        this.setState({ playerData: data })
-        const { opponents } = this.state.playerData
-        this.setState({ player: new Player(this.state.playerData.player) })
+        const { opponents } = data
+        this.setState({ player: new Player(data.player) })
         this.setState({ opponents: opponents.map(opponent => new Opponent(opponent)) })
       })
-  }
-
-  setUpPlayer() {
-    this.setState(() => (
-      { player: new Player(this.props.playerData.player) }
-    ))
-  }
-
-  setUpOpponents() {
-    this.setState(() => (
-      { opponents: this.props.playerData.opponents.map(opponent => new Opponent(opponent)) }
-    ))
   }
 
   updateSelectedRank(rank) {

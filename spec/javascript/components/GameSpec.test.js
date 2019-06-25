@@ -10,7 +10,6 @@ describe('Game', () => {
   beforeEach(() => {
     wrapper = shallow(<Game
       id={3}
-      playerName="Stephen"
       playerData={playerData}
     />)
   })

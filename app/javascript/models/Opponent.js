@@ -1,7 +1,7 @@
 export default class Opponent {
   constructor(opponent) {
     this._name = opponent.name
-    this._totalCards = opponent.totalCards
+    this._totalCards = opponent.cards_left
     this._pairs = opponent.pairs
   }
 
