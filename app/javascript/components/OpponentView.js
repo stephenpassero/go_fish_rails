@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CardView from './CardView'
+import CardBack from '../img/cards/backs_red.png'
 
 export default class OpponentView extends React.Component {
   static propTypes = {
@@ -20,7 +21,7 @@ export default class OpponentView extends React.Component {
 
   // Make this display actual cards images later
   renderCardBacks(numOfCards) {
-    return [...new Array(numOfCards).keys()].map(index => <img alt='Card Back' key={index} src='#' />)
+    return [...new Array(numOfCards).keys()].map(index => <img alt='Card Back' key={index} src={CardBack} />)
   }
 
   renderPairs(pairs) {

@@ -28,7 +28,10 @@
     "moduleDirectories": [
       "app/javascript",
       "node_modules"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(png)$": "<rootDir>/spec/javascript/helpers/FilePathMock.js"
+    }
   },
   "devDependencies": {
     "fetch-mock": "^7.3.3",
