@@ -1,10 +1,11 @@
 class GameLogic
-  attr_reader(:player_names, :deck, :player_turn, :players)
-  def initialize(player_names:, deck: Deck.new(), player_turn: 1, players: [])
+  attr_reader(:player_names, :deck, :player_turn, :players, :game_log)
+  def initialize(player_names:, deck: Deck.new(), player_turn: 1, players: [], game_log: GameLog.new())
     @player_names = player_names
     @deck = deck
     @player_turn = player_turn
     @players = players
+    @game_log = game_log
   end
 
   def start_game
@@ -33,6 +34,13 @@ class GameLogic
     end
   end
 
+  def pair_cards(player)
+    paired_rank = player.pair_cards
+    if paired_rank
+      game_log.add_log('pair', player, nil, paired_rank)
+    end
+  end
+
   def request_cards(player, target, rank)
     cards = target.cards_in_hand(rank)
     if cards.length > 0
@@ -50,14 +58,15 @@ class GameLogic
       player.add_cards(deck.deal(1))
       after_turn(player, target, rank, 'fish')
       increment_player_turn
+    else
+      after_turn(player, target, rank, 'take')
     end
-    after_turn(player, target, rank, 'take')
   end
 
   def after_turn(player, target, rank, status)
-    player.pair_cards
+    game_log.add_log(status, player, target, rank)
+    pair_cards(player)
     refill_cards([player, target])
-    # Add game log here
   end
 
   def self.from_json(hash)
@@ -65,7 +74,8 @@ class GameLogic
       player_names: hash['player_names'],
       deck: Deck.from_json(hash['deck']),
       player_turn: hash['player_turn'],
-      players: hash['players'].map {|player| Player.from_json(player)}
+      players: hash['players'].map {|player| Player.from_json(player)},
+      game_log: GameLog.new(hash['game_log'])
     )
   end
 
@@ -75,7 +85,8 @@ class GameLogic
       'cards_left' => deck.cards_left,
       'players' => player_names,
       'player_turn' => player_turn,
-      'opponents' => players.select {|player| player.name != name}.map(&:as_opponent_json)
+      'opponents' => players.select {|player| player.name != name}.map(&:as_opponent_json),
+      'game_log' => game_log.get_log
     }
   end
 
@@ -93,7 +104,8 @@ class GameLogic
      'player_names' => player_names,
      'deck' => deck.as_json,
      'player_turn' => player_turn,
-     'players' => players.map(&:as_json)
+     'players' => players.map(&:as_json),
+     'game_log' => game_log.get_log
    }
  end
 end

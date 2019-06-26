@@ -32,6 +32,7 @@ export default class Game extends React.Component {
       .then(res => res.json())
       .then((data) => {
         const { opponents } = data
+        console.log(data)
         this.setState(() => ({
           player: new Player(data.player),
           opponents: opponents.map(opponent => new Opponent(opponent)),

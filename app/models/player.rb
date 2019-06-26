@@ -27,13 +27,16 @@ class Player
   end
 
   def pair_cards
+    paired = nil
     @cards.each do |originalCard|
       sameRank = cards.select {|card| card.rank == originalCard.rank}
       if sameRank.length == 4
         @pairs.push(Card.new(rank: sameRank[0].rank, suit: 'Spades'))
+        paired = sameRank[0].rank
         @cards = @cards.select {|card| !sameRank.include?(card)}
       end
     end
+    paired
   end
 
   def self.from_json(hash)
