@@ -7,11 +7,8 @@ class GameLogic
     @players = players
   end
 
-  # Think about keeping player names or extracting it out
   def start_game
     @deck.shuffle
-    # I'm shuffling the player names so that whoever goes first is random
-    @player_names.shuffle!
     @player_names.each do |name|
       @players.push(Player.new(name: name, cards: @deck.deal(5)))
     end

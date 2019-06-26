@@ -41,7 +41,7 @@ RSpec.describe Player, type: :model do
     @player.set_hand([card1, card2, card3, card4])
     @player.pair_cards
     expect(@player.cards_left).to eq(0)
-    expect(@player.pairs).to eq(['6'])
+    expect(@player.pairs[0].rank).to eq('6')
   end
 
   describe '#as_json' do

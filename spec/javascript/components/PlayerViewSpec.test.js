@@ -10,15 +10,18 @@ describe('PlayerView', () => {
       name='Player1'
       player={new Player({
         cards: [{ rank: '4', suit: 'Clubs' }, { rank: '8', suit: 'Hearts' }],
-        pairs: []
+        pairs: [{ rank: '2', suit: 'Spades' }]
       })}
       selectedRank='3'
       updateSelectedRank={jest.fn()}
+      playerTurn={1}
+      players={['Player1', 'Player2']}
     />)
   })
 
-  it('renders the player\'s name', () => {
+  it('renders the player\'s name, pairs, and cards', () => {
     expect(wrapper.find('h3').text()).toEqual('Player1')
-    expect(wrapper.find('CardView').length).toEqual(2)
+    // 2 cards + 1 pairs
+    expect(wrapper.find('CardView').length).toEqual(3)
   })
 })

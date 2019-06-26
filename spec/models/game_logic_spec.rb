@@ -93,7 +93,7 @@ RSpec.describe GameLogic, type: :model do
     describe '#refill_cards' do
       it 'gives a player 5 cards when they have no cards' do
         @player1.set_hand([])
-        @game.refill_cards(@player1)
+        @game.refill_cards([@player1])
         expect(@player1.cards_left).to eq(5)
       end
     end

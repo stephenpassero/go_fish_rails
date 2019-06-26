@@ -29,6 +29,6 @@ describe('OpponentView', () => {
   })
 
   it('highlights the selected opponent', () => {
-    expect(wrapper.find('div').hasClass('selected')).toEqual(true)
+    expect(wrapper.find('.opponent').hasClass('selected')).toEqual(true)
   })
 })
