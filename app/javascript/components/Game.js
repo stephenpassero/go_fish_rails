@@ -5,6 +5,7 @@ import OpponentView from './OpponentView'
 import Player from '../models/Player'
 import Opponent from '../models/Opponent'
 import RequestCardsButton from './RequestCardsButton'
+import GameLog from './GameLog'
 
 export default class Game extends React.Component {
   static propTypes = {
@@ -20,7 +21,8 @@ export default class Game extends React.Component {
       selectedRank: '',
       selectedOpponent: '',
       playerTurn: props.playerData.player_turn,
-      players: props.playerData.players
+      players: props.playerData.players,
+      gameLog: props.playerData.game_log
     }
   }
 
@@ -37,7 +39,9 @@ export default class Game extends React.Component {
           player: new Player(data.player),
           opponents: opponents.map(opponent => new Opponent(opponent)),
           playerTurn: data.player_turn,
-          selectedOpponent: ''
+          selectedOpponent: '',
+          selectedRank: '',
+          gameLog: data.game_log
         }))
       })
   }
@@ -80,9 +84,18 @@ export default class Game extends React.Component {
     )
   }
 
+  renderPlayerTurn() {
+    const currentPlayer = this.state.players[this.state.playerTurn - 1]
+    if (currentPlayer === this.state.player.name()) {
+      return <h2>It’s your turn</h2>
+    }
+    return <h2>Waiting for {currentPlayer} to finish their turn</h2>
+  }
+
   render() {
     return (
       <div>
+        {this.renderPlayerTurn()}
         {this.renderOpponents()}
         <PlayerView
           selectedRank={this.state.selectedRank}
@@ -95,6 +108,7 @@ export default class Game extends React.Component {
         />
         {this.renderRequestCards()}
         {this.renderFetchGame()}
+        <GameLog gameLog={this.state.gameLog} />
       </div>
     )
   }

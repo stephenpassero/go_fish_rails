@@ -58,17 +58,9 @@ export default class PlayerView extends React.Component {
     )
   }
 
-  renderPlayerTurn() {
-    if (this.currentPlayer() === this.props.name) {
-      return "It's your turn"
-    }
-    return `Waiting for ${this.currentPlayer()} to finish their turn`
-  }
-
   render() {
     return (
       <div>
-        {this.renderPlayerTurn()}
         <h3>{this.props.name}</h3>
         {this.renderCards(this.props.player.cards())}
         {this.renderPairs(this.props.player.pairs())}
