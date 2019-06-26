@@ -69,12 +69,6 @@ export default class Game extends React.Component {
     this.setState({ selectedOpponent: opponentName })
   }
 
-  renderFetchGame() {
-    return (
-      <button type='button' onClick={this.fetchGame.bind(this)}>Fetch Game</button>
-    )
-  }
-
   renderOpponents() {
     return this.state.opponents.map(opponent => (
       <OpponentView
@@ -110,8 +104,12 @@ export default class Game extends React.Component {
   render() {
     return (
       <div>
-        {this.renderPlayerTurn()}
-        {this.renderOpponents()}
+        <div className='turnIndicator'>
+          {this.renderPlayerTurn()}
+        </div>
+        <div className='flex-container'>
+          {this.renderOpponents()}
+        </div>
         <Deck cardsLeft={this.state.cardsLeft} />
         <PlayerView
           selectedRank={this.state.selectedRank}
@@ -122,8 +120,9 @@ export default class Game extends React.Component {
           playerTurn={this.state.playerTurn}
           players={this.state.players}
         />
-        {this.renderRequestCards()}
-        {this.renderFetchGame()}
+        <div className='requestCards'>
+          {this.renderRequestCards()}
+        </div>
         <GameLog gameLog={this.state.gameLog} />
       </div>
     )

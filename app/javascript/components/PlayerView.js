@@ -60,7 +60,7 @@ export default class PlayerView extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='player'>
         <h3>{this.props.name}</h3>
         {this.renderCards(this.props.player.cards())}
         {this.renderPairs(this.props.player.pairs())}
