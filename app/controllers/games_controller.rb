@@ -26,7 +26,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    if @game.users.length == @game.players
+    if @game.users.length == @game.players && @game.start_at == nil
       @game.update(start_at: Time.now)
       @game.start
     end

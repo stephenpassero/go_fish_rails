@@ -37,7 +37,6 @@ export default class Game extends React.Component {
 
   updateSelectedRank(rank) {
     this.setState({ selectedRank: rank })
-    console.log(this.state.selectedRank)
   }
 
   updateSelectedOpponent(opponentName) {

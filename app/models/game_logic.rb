@@ -30,7 +30,7 @@ class GameLogic
   def increment_player_turn
     @player_turn += 1
     if player_turn > players.length
-      player_turn = 1
+      @player_turn = 1
     end
   end
 
@@ -51,6 +51,8 @@ class GameLogic
       player.add_cards(deck.deal(1))
       increment_player_turn
     end
+    # Make this method take two args
+    refill_cards(player)
     refill_cards(target)
     # Add game log here
     # Add pairing cards here
