@@ -28,7 +28,7 @@ export default class RequestCardsButton extends React.Component {
 
   render() {
     return (
-      <button type='button' onClick={this.requestCards.bind(this)}>Request Cards</button>
+      <button className='requestCards' type='button' onClick={this.requestCards.bind(this)}>Request Cards</button>
     )
   }
 }
