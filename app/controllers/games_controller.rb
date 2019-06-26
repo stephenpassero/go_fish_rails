@@ -55,7 +55,6 @@ class GamesController < ApplicationController
     game.game_logic.run_turn(player, target, rank)
     game.save
     # Initiate pusher here
-    redirect_to game
   end
 
   private

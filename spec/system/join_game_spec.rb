@@ -16,7 +16,7 @@ RSpec.describe 'Join Game', type: :system do
   end
 
   it 'can click on cards and select them' do
-    create_and_join_game()
+    create_and_join_game
     @session1.driver.refresh
     card = @session1.find('img.card', match: :first)
     card.click

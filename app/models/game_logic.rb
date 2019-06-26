@@ -21,9 +21,11 @@ class GameLogic
     players.detect {|player| player.name == name}
   end
 
-  def refill_cards(player)
-    if player.cards_left == 0
-      player.add_cards(deck.deal(5))
+  def refill_cards(players)
+    players.each do |player|
+      if player.cards_left == 0
+        player.add_cards(deck.deal(5))
+      end
     end
   end
 
@@ -49,13 +51,16 @@ class GameLogic
     target = find_player_by_name(target_name)
     if request_cards(player, target, rank) == 'Go Fish'
       player.add_cards(deck.deal(1))
+      after_turn(player, target, rank, 'fish')
       increment_player_turn
     end
-    # Make this method take two args
-    refill_cards(player)
-    refill_cards(target)
+    after_turn(player, target, rank, 'take')
+  end
+
+  def after_turn(player, target, rank, status)
+    player.pair_cards
+    refill_cards([player, target])
     # Add game log here
-    # Add pairing cards here
   end
 
   def self.from_json(hash)
@@ -71,6 +76,7 @@ class GameLogic
     {
       'player' => find_player_by_name(name).as_json,
       'cards_left' => deck.cards_left,
+      'players' => player_names,
       'player_turn' => player_turn,
       'opponents' => players.select {|player| player.name != name}.map(&:as_opponent_json)
     }

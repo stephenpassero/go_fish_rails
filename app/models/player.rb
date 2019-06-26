@@ -30,7 +30,7 @@ class Player
     @cards.each do |originalCard|
       sameRank = cards.select {|card| card.rank == originalCard.rank}
       if sameRank.length == 4
-        @pairs.push(sameRank[0].rank)
+        @pairs.push(Card.new(rank: sameRank[0].rank, suit: 'Spades'))
         @cards = @cards.select {|card| !sameRank.include?(card)}
       end
     end

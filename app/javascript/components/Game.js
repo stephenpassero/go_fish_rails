@@ -18,7 +18,9 @@ export default class Game extends React.Component {
       player: new Player(props.playerData.player),
       opponents: props.playerData.opponents.map(opponent => new Opponent(opponent)),
       selectedRank: '',
-      selectedOpponent: ''
+      selectedOpponent: '',
+      playerTurn: props.playerData.player_turn,
+      players: props.playerData.players
     }
   }
 
@@ -30,8 +32,12 @@ export default class Game extends React.Component {
       .then(res => res.json())
       .then((data) => {
         const { opponents } = data
-        this.setState({ player: new Player(data.player) })
-        this.setState({ opponents: opponents.map(opponent => new Opponent(opponent)) })
+        this.setState(() => ({
+          player: new Player(data.player),
+          opponents: opponents.map(opponent => new Opponent(opponent)),
+          playerTurn: data.player_turn,
+          selectedOpponent: ''
+        }))
       })
   }
 
@@ -83,6 +89,8 @@ export default class Game extends React.Component {
           player={this.state.player}
           name={this.state.player.name()}
           pairs={this.state.player.pairs()}
+          playerTurn={this.state.playerTurn}
+          players={this.state.players}
         />
         {this.renderRequestCards()}
         {this.renderFetchGame()}

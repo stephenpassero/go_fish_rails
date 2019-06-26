@@ -1,16 +1,20 @@
 class Deck
   attr_reader(:cards)
-  def initialize(cards: [])
+  def initialize(cards: 'no_cards')
     ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs']
-    @cards = cards
-    if @cards.length == 0
-      ranks.each do |rank|
-        suits.each do |suit|
-          card = Card.new(rank: rank, suit: suit)
-          @cards.push(card)
+    @cards = []
+    if cards == 'no_cards'
+      if @cards.length == 0
+        ranks.each do |rank|
+          suits.each do |suit|
+            card = Card.new(rank: rank, suit: suit)
+            @cards.push(card)
+          end
         end
       end
+    else
+      @cards = cards
     end
   end
 
