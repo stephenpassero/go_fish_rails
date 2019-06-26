@@ -54,7 +54,9 @@ class GamesController < ApplicationController
     rank = params[:selectedRank]
     game.game_logic.run_turn(player, target, rank)
     game.save
-    # Initiate pusher here
+    pusher_client.trigger("game#{game.id}", 'turn-played', {
+      message: "#{player} ran a turn"
+    })
   end
 
   private

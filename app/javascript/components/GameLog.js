@@ -10,7 +10,7 @@ export default class RequestCardsButton extends React.Component {
     return (
       <div className='gameLog'>
         {
-          this.props.gameLog.map(logStatement => <p className='logStatement'>{logStatement}</p>)
+          this.props.gameLog.map((logStatement, index) => <p key={index} className='logStatement'>{logStatement}</p>)
         }
       </div>
     )

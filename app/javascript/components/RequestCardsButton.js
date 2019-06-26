@@ -17,7 +17,7 @@ export default class RequestCardsButton extends React.Component {
   }
 
   requestCards() {
-    fetch('games/run_round', {
+    fetch(`${this.props.gameId}/run_round`, {
       method: 'POST',
       body: JSON.stringify(this.createJSON()),
       headers: {

@@ -1,4 +1,5 @@
 import React from 'react'
+import Pusher from 'pusher-js'
 import PropTypes from 'prop-types'
 import PlayerView from './PlayerView'
 import OpponentView from './OpponentView'
@@ -6,6 +7,7 @@ import Player from '../models/Player'
 import Opponent from '../models/Opponent'
 import RequestCardsButton from './RequestCardsButton'
 import GameLog from './GameLog'
+import Deck from './Deck'
 
 export default class Game extends React.Component {
   static propTypes = {
@@ -22,8 +24,20 @@ export default class Game extends React.Component {
       selectedOpponent: '',
       playerTurn: props.playerData.player_turn,
       players: props.playerData.players,
-      gameLog: props.playerData.game_log
+      gameLog: props.playerData.game_log,
+      cardsLeft: props.playerData.cards_left
     }
+  }
+
+  componentDidMount() {
+    const pusher = new Pusher('2ffc946d2ff557abffef', {
+      cluster: 'us2',
+      forceTLS: true
+    });
+    const channel = pusher.subscribe(`game${this.props.id}`);
+    channel.bind('turn-played', () => {
+      this.fetchGame()
+    })
   }
 
   fetchGame() {
@@ -41,7 +55,8 @@ export default class Game extends React.Component {
           playerTurn: data.player_turn,
           selectedOpponent: '',
           selectedRank: '',
-          gameLog: data.game_log
+          gameLog: data.game_log,
+          cardsLeft: data.cards_left
         }))
       })
   }
@@ -97,6 +112,7 @@ export default class Game extends React.Component {
       <div>
         {this.renderPlayerTurn()}
         {this.renderOpponents()}
+        <Deck cardsLeft={this.state.cardsLeft} />
         <PlayerView
           selectedRank={this.state.selectedRank}
           updateSelectedRank={this.updateSelectedRank.bind(this)}
