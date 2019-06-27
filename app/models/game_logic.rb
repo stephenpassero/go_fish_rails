@@ -15,12 +15,12 @@ class GameLogic
     end
   end
 
-  def player_points
-    player_points = []
+  def player_pairs
+    player_pairs = []
     players.each do |player|
-      player_points.push({player.name => player.pairs.length})
+      player_pairs.push([player.name, player.pairs.length])
     end
-    player_points.sort_by{|key, value| value}
+    player_pairs.sort_by{|arr| arr[1]}.reverse
   end
 
   def find_player_by_name(name)
@@ -104,7 +104,8 @@ class GameLogic
       'players' => player_names,
       'player_turn' => player_turn,
       'opponents' => players.select {|player| player.name != name}.map(&:as_opponent_json),
-      'game_log' => game_log.get_log
+      'game_log' => game_log.get_log,
+      'player_pairs' => player_pairs
     }
   end
 

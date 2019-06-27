@@ -8,6 +8,7 @@ import Opponent from '../models/Opponent'
 import RequestCardsButton from './RequestCardsButton'
 import GameLog from './GameLog'
 import Deck from './Deck'
+import EndGameView from './EndGameView'
 
 export default class Game extends React.Component {
   static propTypes = {
@@ -25,7 +26,8 @@ export default class Game extends React.Component {
       playerTurn: props.playerData.player_turn,
       players: props.playerData.players,
       gameLog: props.playerData.game_log,
-      cardsLeft: props.playerData.cards_left
+      cardsLeft: props.playerData.cards_left,
+      playerPairs: props.playerData.player_pairs
     }
   }
 
@@ -56,7 +58,8 @@ export default class Game extends React.Component {
           selectedOpponent: '',
           selectedRank: '',
           gameLog: data.game_log,
-          cardsLeft: data.cards_left
+          cardsLeft: data.cards_left,
+          playerPairs: data.player_pairs
         }))
       })
   }
@@ -69,39 +72,7 @@ export default class Game extends React.Component {
     this.setState({ selectedOpponent: opponentName })
   }
 
-  renderRequestCards() {
-    if (this.state.selectedRank === '' || this.state.selectedOpponent === '') return ''
-    return (
-      <RequestCardsButton
-        gameId={this.props.id}
-        selectedRank={this.state.selectedRank}
-        selectedOpponent={this.state.selectedOpponent}
-      />
-    )
-  }
-
-  renderPlayerTurn() {
-    const currentPlayer = this.state.players[this.state.playerTurn - 1]
-    if (currentPlayer === this.state.player.name()) {
-      return <h2>It’s your turn</h2>
-    }
-    return <h2>Waiting for {currentPlayer} to finish their turn</h2>
-  }
-
-  renderOpponents() {
-    return this.state.opponents.map(opponent => (
-      <OpponentView
-        key={opponent.name()}
-        name={opponent.name()}
-        numOfCards={opponent.totalCards()}
-        pairs={opponent.pairs()}
-        selectedOpponent={this.state.selectedOpponent}
-        updateSelectedOpponent={this.updateSelectedOpponent.bind(this)}
-      />
-    ))
-  }
-
-  render() {
+  gameView() {
     return (
       <div>
         {this.renderPlayerTurn()}
@@ -122,5 +93,57 @@ export default class Game extends React.Component {
         <GameLog gameLog={this.state.gameLog} />
       </div>
     )
+  }
+
+  endGame() {
+    let cardsLeft = false
+    this.state.opponents.forEach((opponent) => {
+      if (opponent.totalCards > 0) {
+        cardsLeft = true
+      }
+    })
+    if (this.state.player.cards().length > 0) {
+      cardsLeft = true
+    }
+    return !cardsLeft
+  }
+
+  renderRequestCards() {
+    if (this.state.selectedRank === '' || this.state.selectedOpponent === '') return ''
+    return (
+      <RequestCardsButton
+        gameId={this.props.id}
+        selectedRank={this.state.selectedRank}
+        selectedOpponent={this.state.selectedOpponent}
+      />
+    )
+  }
+
+  renderOpponents() {
+    return this.state.opponents.map(opponent => (
+      <OpponentView
+        key={opponent.name()}
+        name={opponent.name()}
+        numOfCards={opponent.totalCards()}
+        pairs={opponent.pairs()}
+        selectedOpponent={this.state.selectedOpponent}
+        updateSelectedOpponent={this.updateSelectedOpponent.bind(this)}
+      />
+    ))
+  }
+
+  renderPlayerTurn() {
+    const currentPlayer = this.state.players[this.state.playerTurn - 1]
+    if (currentPlayer === this.state.player.name()) {
+      return <h2>It’s your turn</h2>
+    }
+    return <h2>Waiting for {currentPlayer} to finish their turn</h2>
+  }
+
+  render() {
+    if (this.endGame()) {
+      return <EndGameView playerPoints={this.state.playerPairs} />
+    }
+    return this.gameView()
   }
 }

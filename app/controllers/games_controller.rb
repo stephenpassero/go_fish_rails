@@ -36,10 +36,6 @@ class GamesController < ApplicationController
       format.html
       format.json { render :json => @initial_state }
     end
-    if @game.game_logic && !@game.game_logic.cards_in_play?
-      redirect_to end_game_path(id: @game.id)
-      return
-    end
   end
 
   def leave
@@ -49,10 +45,6 @@ class GamesController < ApplicationController
       game.delete
     end
     redirect_to games_path
-  end
-
-  def end
-    @game = Game.find(params[:id]).game_logic
   end
 
   def run_round
