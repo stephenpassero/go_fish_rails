@@ -15,7 +15,9 @@ RSpec.describe GameLogic, type: :model do
         deck: {cards: [{rank: '8', suit: 'Hearts'}, {rank: '2', suit: 'Spades'}]},
         player_names: ['Player1', 'Player2'],
         players: [player.as_json],
-        player_turn: 1
+        player_turn: 1,
+        game_log: game_logic.game_log.get_log,
+        winner: false
       )
     end
   end
@@ -44,7 +46,9 @@ RSpec.describe GameLogic, type: :model do
         'cards_left' => 2,
         'player' => player1.as_json,
         'opponents' => [{'name' => 'Player2', 'cards_left' => 1, 'pairs' => []}],
-        'player_turn' => 1
+        'player_turn' => 1,
+        'player_pairs': [['Player2', 0], ['Player1', 0]],
+        'winner': false
       )
     end
   end
