@@ -18,16 +18,18 @@ export default class Game extends React.Component {
 
   constructor(props) {
     super(props)
+    const data = props.playerData
     this.state = {
-      player: new Player(props.playerData.player),
-      opponents: props.playerData.opponents.map(opponent => new Opponent(opponent)),
+      player: new Player(data.player),
+      opponents: data.opponents.map(opponent => new Opponent(opponent)),
       selectedRank: '',
       selectedOpponent: '',
-      playerTurn: props.playerData.player_turn,
-      players: props.playerData.players,
-      gameLog: props.playerData.game_log,
-      cardsLeft: props.playerData.cards_left,
-      playerPairs: props.playerData.player_pairs
+      playerTurn: data.player_turn,
+      players: data.players,
+      gameLog: data.game_log,
+      cardsLeft: data.cards_left,
+      playerPairs: data.player_pairs,
+      winner: data.winner
     }
   }
 
@@ -46,11 +48,11 @@ export default class Game extends React.Component {
     fetch(`/games/${this.props.id}`, { headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-    } })
+    },
+    credentials: 'same-origin' })
       .then(res => res.json())
       .then((data) => {
         const { opponents } = data
-        console.log(data)
         this.setState(() => ({
           player: new Player(data.player),
           opponents: opponents.map(opponent => new Opponent(opponent)),
@@ -59,7 +61,8 @@ export default class Game extends React.Component {
           selectedRank: '',
           gameLog: data.game_log,
           cardsLeft: data.cards_left,
-          playerPairs: data.player_pairs
+          playerPairs: data.player_pairs,
+          winner: data.winner
         }))
       })
   }
@@ -95,19 +98,6 @@ export default class Game extends React.Component {
     )
   }
 
-  endGame() {
-    let cardsLeft = false
-    this.state.opponents.forEach((opponent) => {
-      if (opponent.totalCards > 0) {
-        cardsLeft = true
-      }
-    })
-    if (this.state.player.cards().length > 0) {
-      cardsLeft = true
-    }
-    return !cardsLeft
-  }
-
   renderRequestCards() {
     if (this.state.selectedRank === '' || this.state.selectedOpponent === '') return ''
     return (
@@ -141,7 +131,7 @@ export default class Game extends React.Component {
   }
 
   render() {
-    if (this.endGame()) {
+    if (this.state.winner) {
       return <EndGameView playerPoints={this.state.playerPairs} />
     }
     return this.gameView()

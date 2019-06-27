@@ -4,6 +4,9 @@ class GamesController < ApplicationController
     @game = Game.create(game_params)
     user = User.find(session[:current_user])
     GameUser.create(game_id: @game.id, user_id: user.id)
+    pusher_client.trigger("game", 'new-game', {
+      message: "A new game has been created"
+    })
     redirect_to @game
   end
 
@@ -21,6 +24,9 @@ class GamesController < ApplicationController
     game = Game.find(params[:format])
     user = User.find(session[:current_user])
     GameUser.create(game_id: game.id, user_id: user.id) unless game.users.include?(user)
+    pusher_client.trigger("game", 'player-joined', {
+      message: "A player has joined the game"
+    })
     redirect_to game
   end
 
@@ -39,12 +45,18 @@ class GamesController < ApplicationController
   end
 
   def leave
-    User.find(session[:current_user]).update(game_id: nil)
     game = Game.find(params[:id])
+    GameUser.find_by(user: session[:current_user], game_id: game.id).destroy
     if game.users.length == 0
-      game.delete
+      game.destroy
     end
+    pusher_client.trigger("game", 'new-game', {
+      message: "Somebody left a game"
+    })
     redirect_to games_path
+    pusher_client.trigger("game", 'player-left', {
+      message: "A player has left the game"
+    })
   end
 
   def run_round

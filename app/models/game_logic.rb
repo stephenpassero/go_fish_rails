@@ -35,10 +35,23 @@ class GameLogic
     end
   end
 
+  def winner?
+    cards_left = false
+    players.each do |player|
+      if player.cards_left > 0
+        cards_left = true
+      end
+    end
+    return !cards_left
+  end
+
   def increment_player_turn
     @player_turn += 1
     if player_turn > players.length
       @player_turn = 1
+    end
+    while players[player_turn - 1].cards_left == 0 && winner? == false
+      @player_turn += 1
     end
   end
 
@@ -85,6 +98,7 @@ class GameLogic
     game_log.add_log(status, player, target, rank)
     pair_cards(player)
     refill_cards([player, target])
+    increment_player_turn if player.cards_left == 0 
   end
 
   def self.from_json(hash)
@@ -105,7 +119,8 @@ class GameLogic
       'player_turn' => player_turn,
       'opponents' => players.select {|player| player.name != name}.map(&:as_opponent_json),
       'game_log' => game_log.get_log,
-      'player_pairs' => player_pairs
+      'player_pairs' => player_pairs,
+      'winner' => winner?
     }
   end
 
@@ -124,7 +139,8 @@ class GameLogic
      'deck' => deck.as_json,
      'player_turn' => player_turn,
      'players' => players.map(&:as_json),
-     'game_log' => game_log.get_log
+     'game_log' => game_log.get_log,
+     'winner' => winner?
    }
  end
 end
