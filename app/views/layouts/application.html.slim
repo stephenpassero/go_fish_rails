@@ -10,5 +10,5 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag    'application'
     = javascript_pack_tag    'pusher'
-  body
+  body data-current_user_id="#{session[:current_user]}"
     = yield

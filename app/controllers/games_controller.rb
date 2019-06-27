@@ -25,7 +25,8 @@ class GamesController < ApplicationController
     user = User.find(session[:current_user])
     GameUser.create(game_id: game.id, user_id: user.id) unless game.users.include?(user)
     pusher_client.trigger("game", 'player-joined', {
-      message: "A player has joined the game"
+      game_id: game.id,
+      user_id: "#{user.id}"
     })
     redirect_to game
   end
@@ -53,10 +54,11 @@ class GamesController < ApplicationController
     pusher_client.trigger("game", 'new-game', {
       message: "Somebody left a game"
     })
-    redirect_to games_path
     pusher_client.trigger("game", 'player-left', {
-      message: "A player has left the game"
+      user_id: "#{session[:current_user]}",
+      game_id: game.id
     })
+    redirect_to games_path
   end
 
   def run_round

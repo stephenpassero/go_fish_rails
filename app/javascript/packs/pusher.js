@@ -12,20 +12,18 @@ channel.bind('new-game', () => {
   }
 })
 
-channel.bind('player-left', () => {
-  if (window.location.pathname.includes('/games/')
-      && window.location.pathname !== '/games/new'
-      && window.location.pathname !== '/games/') {
-    setTimeout(() => {
+channel.bind('player-left', (data) => {
+  if (window.location.pathname === `/games/${data.game_id}` || window.location.pathname === '/games') {
+    if (data.user_id !== document.body.dataset.current_user_id) {
       window.location.reload()
-    }, 1000)
+    }
   }
 })
 
-channel.bind('player-joined', () => {
-  if (window.location.pathname.includes('/games/')
-      && window.location.pathname !== '/games/new'
-      && window.location.pathname !== '/games/') {
-    window.location.reload()
+channel.bind('player-joined', (data) => {
+  if (window.location.pathname === `/games/${data.game_id}` || window.location.pathname === '/games') {
+    if (data.user_id !== document.body.dataset.current_user_id) {
+      window.location.reload()
+    }
   }
 })
