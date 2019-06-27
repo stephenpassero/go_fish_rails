@@ -15,6 +15,14 @@ class GameLogic
     end
   end
 
+  def player_points
+    player_points = []
+    players.each do |player|
+      player_points.push({player.name => player.pairs.length})
+    end
+    player_points.sort_by{|key, value| value}
+  end
+
   def find_player_by_name(name)
     players.detect {|player| player.name == name}
   end
@@ -32,6 +40,16 @@ class GameLogic
     if player_turn > players.length
       @player_turn = 1
     end
+  end
+
+  def cards_in_play?
+    cards_in_play = false
+    players.each do |player|
+      if player.cards_left > 0
+        cards_in_play = true
+      end
+    end
+    cards_in_play
   end
 
   def pair_cards(player)

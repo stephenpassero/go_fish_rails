@@ -69,19 +69,6 @@ export default class Game extends React.Component {
     this.setState({ selectedOpponent: opponentName })
   }
 
-  renderOpponents() {
-    return this.state.opponents.map(opponent => (
-      <OpponentView
-        key={opponent.name()}
-        name={opponent.name()}
-        numOfCards={opponent.totalCards()}
-        pairs={opponent.pairs()}
-        selectedOpponent={this.state.selectedOpponent}
-        updateSelectedOpponent={this.updateSelectedOpponent.bind(this)}
-      />
-    ))
-  }
-
   renderRequestCards() {
     if (this.state.selectedRank === '' || this.state.selectedOpponent === '') return ''
     return (
@@ -101,12 +88,23 @@ export default class Game extends React.Component {
     return <h2>Waiting for {currentPlayer} to finish their turn</h2>
   }
 
+  renderOpponents() {
+    return this.state.opponents.map(opponent => (
+      <OpponentView
+        key={opponent.name()}
+        name={opponent.name()}
+        numOfCards={opponent.totalCards()}
+        pairs={opponent.pairs()}
+        selectedOpponent={this.state.selectedOpponent}
+        updateSelectedOpponent={this.updateSelectedOpponent.bind(this)}
+      />
+    ))
+  }
+
   render() {
     return (
       <div>
-        <div className='turnIndicator'>
-          {this.renderPlayerTurn()}
-        </div>
+        {this.renderPlayerTurn()}
         <div className='flex-container'>
           {this.renderOpponents()}
         </div>
@@ -120,9 +118,7 @@ export default class Game extends React.Component {
           playerTurn={this.state.playerTurn}
           players={this.state.players}
         />
-        <div className='requestCards'>
-          {this.renderRequestCards()}
-        </div>
+        {this.renderRequestCards()}
         <GameLog gameLog={this.state.gameLog} />
       </div>
     )

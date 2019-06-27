@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :games do
     member do
       post :run_round
+      get :end
     end
   end
   resources :sessions
