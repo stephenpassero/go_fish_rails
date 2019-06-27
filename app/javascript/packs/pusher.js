@@ -1,9 +1,11 @@
-const pusher = new Pusher('2ffc946d2ff557abffef', {
-  cluster: 'us2',
-  forceTLS: true
-})
+if (!window.pusher) {
+  window.pusher = new Pusher('2ffc946d2ff557abffef', {
+    cluster: 'us2',
+    forceTLS: true
+  })
+}
 
-const channel = pusher.subscribe('game')
+const channel = window.pusher.subscribe('game')
 channel.bind('new-game', () => {
   if (window.location.pathname === '/games') {
     window.location.reload()

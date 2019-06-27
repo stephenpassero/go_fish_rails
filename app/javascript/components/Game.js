@@ -34,11 +34,12 @@ export default class Game extends React.Component {
   }
 
   componentDidMount() {
-    const pusher = new Pusher('2ffc946d2ff557abffef', {
-      cluster: 'us2',
-      forceTLS: true
-    });
-    const channel = pusher.subscribe(`game${this.props.id}`);
+    if (!window.pusher) {
+      window.pusher = new Pusher('2ffc946d2ff557abffef', {
+        cluster: 'us2'
+      })
+    }
+    const channel = window.pusher.subscribe(`game${this.props.id}`);
     channel.bind('turn-played', () => {
       this.fetchGame()
     })
