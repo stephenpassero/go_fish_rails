@@ -93,8 +93,8 @@ class GameLogic
     target = find_player_by_name(target_name)
     if request_cards(player, target, rank) == 'Go Fish'
       player.add_cards(deck.deal(1))
-      after_turn(player, target, rank, 'fish')
       increment_player_turn
+      after_turn(player, target, rank, 'fish')
     else
       after_turn(player, target, rank, 'take')
     end
@@ -109,10 +109,9 @@ class GameLogic
   end
 
   def run_bot_turns
-    binding.pry
-    if players[player_turn].bot && winner? == false
-      binding.pry
-      increment_player_turn
+    current_player = players[player_turn - 1]
+    if current_player.bot && winner? == false
+      run_turn(current_player.name, current_player.get_target(players), current_player.get_rank)
     end
   end
 

@@ -19,6 +19,14 @@ class Player
     cards.select {|card| card.rank == rank}
   end
 
+  def get_target(players)
+    names = players.map(&:name).select {|player_name| player_name != name}
+  end
+
+  def get_rank
+    
+  end
+
   def add_cards(cards)
     @cards.concat(cards)
   end
