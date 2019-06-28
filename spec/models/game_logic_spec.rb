@@ -64,12 +64,19 @@ RSpec.describe GameLogic, type: :model do
 
   context 'running a game' do
     before(:each) do
-      @game = GameLogic.new(player_names: ['Player1', 'Player2'])
+      @game = GameLogic.new(player_names: ['Player1', 'Player2'], bots: 1)
       @game.start_game
       @player1 = @game.find_player_by_name('Player1')
       @player2 = @game.find_player_by_name('Player2')
       @player1.set_hand([Card.new(rank: '3', suit: 'Diamonds')])
       @player2.set_hand([Card.new(rank: '3', suit: 'Clubs')])
+    end
+
+    it 'runs bot turns' do
+      @game.run_turn(@player1.name, @player2.name, '2')
+      @game.run_turn(@player2.name, @player1.name, '2')
+      # Even though only two people played, there should be a least three turns played
+      expect(@game.game_log.get_log.length).to be > 2
     end
 
     it 'requests a card from another player, increments the player turn, and refills cards as need be' do

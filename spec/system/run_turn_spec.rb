@@ -30,15 +30,9 @@ RSpec.describe 'Run Turn', type: :system do
     expect(@session1.all('.logStatement').length).to be > 0
   end
 
-  it 'can have bots run their turns' do
+  it 'has bots' do
     @session1.driver.refresh
-    run_turn(@session1)
-    @session1.driver.refresh
-    @session2.driver.refresh
-    run_turn(@session2)
-    @session2.driver.refresh
-    # Even though I only ran two turns, the bot should run the third turn
-    expect(@session2.all('.logStatement').length).to be > 2
+    expect(@session1.all('.opponent').length).to eq 2
   end
 
   private
@@ -51,7 +45,6 @@ RSpec.describe 'Run Turn', type: :system do
     opponent.click
     request_button = session.all('.requestCards').first
     request_button.click
-
   end
 
   def create_and_join_game

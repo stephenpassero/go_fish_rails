@@ -18,7 +18,8 @@ class GamesController < ApplicationController
     user = User.find(session[:current_user])
     @user_name = user.name
     @pending_games = Game.pending
-    @message = params[:message]
+    @in_progress_games = Game.in_progress.select {|game| game.users.include?(user)}
+    @finished_games = Game.finished.select {|game| game.users.include?(user)}
   end
 
   def new
@@ -36,10 +37,18 @@ class GamesController < ApplicationController
     redirect_to game
   end
 
+  def end
+    game = Game.find(params[:id])
+    game.end
+  end
+
   def show
     @game = Game.find(params[:id])
     if @game.waiting_for_players == 0 && @game.start_at == nil
       @game.start
+    end
+    if @game.game_logic && @game.end_at == nil && @game.game_logic.winner? == true
+      @game.end
     end
     @player_name = User.find(session[:current_user]).name
     @initial_state = @game.game_logic.player_data(@player_name) if @game.game_logic
