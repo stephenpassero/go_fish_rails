@@ -2,4 +2,4 @@
   p There are no games in progress.
 - else
   - @in_progress_games.each_with_index do |game, index|
-    p = link_to "In Progress Game ##{index + 1}: #{game.game_logic.player_names.join(', ')} and #{game.bots} bot(s)", games_join_path(game), method: :post
+    p = link_to "Game ##{index + 1}: #{game.game_logic.player_names.join(', ')} and #{game.bots} bot(s)", games_join_path(game), method: :post
