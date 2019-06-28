@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
       if @user.errors.any?
         redirect_to '/', notice: 'Player name cannot start with “Bot”'
       else
+        session[:current_user] = @user.id
         redirect_to games_path
       end
     end
