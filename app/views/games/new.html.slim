@@ -1,5 +1,9 @@
+- if notice
+  h2.error = notice
 h2 How many players do you want to play with?
 = form_for @game, url: games_url do |f|
-  = f.label "Number of Players"
+  = f.label "Number of Total Players"
   = f.number_field :players, required: true, max: 6, min: 2
+  = f.label "Number of Bots"
+  = f.number_field :bots, max: 5, min: 0
   = f.submit "Create Game"

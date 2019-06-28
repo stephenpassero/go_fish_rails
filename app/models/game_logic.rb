@@ -1,17 +1,23 @@
 class GameLogic
-  attr_reader(:player_names, :deck, :player_turn, :players, :game_log)
-  def initialize(player_names:, deck: Deck.new(), player_turn: 1, players: [], game_log: GameLog.new())
+  attr_reader(:player_names, :deck, :player_turn, :players, :game_log, :bots)
+  def initialize(player_names:, deck: Deck.new(), player_turn: 1, players: [], game_log: GameLog.new(), bots: 0)
     @player_names = player_names
     @deck = deck
     @player_turn = player_turn
     @players = players
     @game_log = game_log
+    @bots = bots
   end
 
   def start_game
     @deck.shuffle
     @player_names.each do |name|
       @players.push(Player.new(name: name, cards: @deck.deal(5)))
+    end
+    index = 1
+    bots.times do
+      @players.push(Player.new(name: "Bot#{index}", cards: @deck.deal(5), bot: true))
+      index += 1
     end
   end
 
@@ -87,8 +93,8 @@ class GameLogic
     target = find_player_by_name(target_name)
     if request_cards(player, target, rank) == 'Go Fish'
       player.add_cards(deck.deal(1))
-      after_turn(player, target, rank, 'fish')
       increment_player_turn
+      after_turn(player, target, rank, 'fish')
     else
       after_turn(player, target, rank, 'take')
     end
@@ -98,7 +104,15 @@ class GameLogic
     game_log.add_log(status, player, target, rank)
     pair_cards(player)
     refill_cards([player, target])
-    increment_player_turn if player.cards_left == 0 
+    increment_player_turn if player.cards_left == 0
+    run_bot_turns
+  end
+
+  def run_bot_turns
+    current_player = players[player_turn - 1]
+    if current_player.bot && winner? == false
+      run_turn(current_player.name, current_player.get_target(players), current_player.get_rank)
+    end
   end
 
   def self.from_json(hash)

@@ -2,18 +2,23 @@ class GamesController < ApplicationController
   protect_from_forgery with: :null_session
   def create
     @game = Game.create(game_params)
-    user = User.find(session[:current_user])
-    GameUser.create(game_id: @game.id, user_id: user.id)
-    pusher_client.trigger("game", 'new-game', {
-      message: "A new game has been created"
-    })
-    redirect_to @game
+    if @game.errors.any?
+      redirect_to new_game_path, notice: 'There must be more players than there are bots'
+    else
+      user = User.find(session[:current_user])
+      GameUser.create(game_id: @game.id, user_id: user.id)
+      pusher_client.trigger("game", 'new-game', {
+        message: "A new game has been created"
+      })
+      redirect_to @game
+    end
   end
 
   def index
     user = User.find(session[:current_user])
     @user_name = user.name
     @pending_games = Game.pending
+    @message = params[:message]
   end
 
   def new
@@ -33,8 +38,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    if @game.users.length == @game.players && @game.start_at == nil
-      @game.update(start_at: Time.now)
+    if @game.waiting_for_players == 0 && @game.start_at == nil
       @game.start
     end
     @player_name = User.find(session[:current_user]).name
@@ -76,6 +80,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:players)
+    params.require(:game).permit(:players, :bots)
   end
 end

@@ -1,9 +1,10 @@
 class Player
-  attr_reader(:name, :cards, :pairs)
-  def initialize(name:, cards: [], pairs: [])
+  attr_reader(:name, :cards, :pairs, :bot)
+  def initialize(name:, cards: [], pairs: [], bot: false)
     @name = name
     @cards = cards
     @pairs = pairs
+    @bot = bot
   end
 
   def cards_left
@@ -16,6 +17,14 @@ class Player
 
   def cards_in_hand(rank)
     cards.select {|card| card.rank == rank}
+  end
+
+  def get_target(players)
+    names = players.map(&:name).select {|player_name| player_name != name}
+  end
+
+  def get_rank
+    
   end
 
   def add_cards(cards)
@@ -43,7 +52,8 @@ class Player
     Player.new(
       name: hash['name'],
       cards: hash['cards'].map {|card| Card.from_json(card)},
-      pairs: hash['pairs'].map {|pair| Card.from_json(pair)}
+      pairs: hash['pairs'].map {|pair| Card.from_json(pair)},
+      bot: hash['bot']
     )
   end
 
@@ -51,7 +61,8 @@ class Player
     {
       'name' => name,
       'cards_left' => cards.length,
-      'pairs' => pairs.map(&:as_json)
+      'pairs' => pairs.map(&:as_json),
+      'bot' => bot
     }
   end
 
@@ -59,7 +70,8 @@ class Player
     {
       'name' => name,
       'cards' => cards.map(&:as_json),
-      'pairs' => pairs.map(&:as_json)
+      'pairs' => pairs.map(&:as_json),
+      'bot' => bot
     }
   end
 end
