@@ -8,10 +8,12 @@ class Game < ApplicationRecord
   serialize :game_logic, GameLogic
 
   def start()
-    binding.pry
-    # Make the game create bots
-    game_logic_class = GameLogic.new(player_names: users.map(&:name))
+    game_logic_class = GameLogic.new(player_names: users.map(&:name), bots: bots)
     game_logic_class.start_game
     update(game_logic: game_logic_class, start_at: Time.now)
+  end
+
+  def waiting_for_players
+    players - bots - users.length
   end
 end

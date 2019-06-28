@@ -10,9 +10,6 @@ class GamesController < ApplicationController
       pusher_client.trigger("game", 'new-game', {
         message: "A new game has been created"
       })
-      # Is this a good idea?
-      @game.players = @game.players - @game.bots
-      @game.save
       redirect_to @game
     end
   end
@@ -40,7 +37,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    if @game.users.length == @game.players && @game.start_at == nil
+    if @game.waiting_for_players == 0 && @game.start_at == nil
       @game.start
     end
     @player_name = User.find(session[:current_user]).name
