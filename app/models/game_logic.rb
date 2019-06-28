@@ -56,7 +56,7 @@ class GameLogic
     if player_turn > players.length
       @player_turn = 1
     end
-    while players[player_turn - 1].cards_left == 0 && winner? == false
+    while winner? == false && players[player_turn - 1].cards_left == 0
       @player_turn += 1
     end
   end
@@ -110,7 +110,7 @@ class GameLogic
 
   def run_bot_turns
     current_player = players[player_turn - 1]
-    if current_player.bot && winner? == false
+    if winner? == false && current_player.bot
       run_turn(current_player.name, current_player.get_target(players), current_player.get_rank)
     end
   end

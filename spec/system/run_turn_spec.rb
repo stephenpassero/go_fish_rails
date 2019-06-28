@@ -24,22 +24,40 @@ RSpec.describe 'Run Turn', type: :system do
 
   it 'can take cards from other players' do
     @session1.driver.refresh
-    card = @session1.all('.card').last
-    card.click
-    opponent = @session1.all('.opponent').first
-    opponent.click
-    request_button = @session1.all('.requestCards').first
-    request_button.click
+    run_turn(@session1)
     @session1.driver.refresh
     expect(@session1.all('.card').length).to be > 5
     expect(@session1.all('.logStatement').length).to be > 0
   end
 
+  it 'can have bots run their turns' do
+    @session1.driver.refresh
+    run_turn(@session1)
+    @session1.driver.refresh
+    @session2.driver.refresh
+    run_turn(@session2)
+    @session2.driver.refresh
+    # Even though I only ran two turns, the bot should run the third turn
+    expect(@session2.all('.logStatement').length).to be > 2
+  end
+
   private
+
+  def run_turn(session)
+    session.driver.refresh
+    card = session.all('.card').last
+    card.click
+    opponent = session.all('.opponent').first
+    opponent.click
+    request_button = session.all('.requestCards').first
+    request_button.click
+
+  end
 
   def create_and_join_game
     @session1.click_on 'Create Game'
-    @session1.fill_in 'game_players', with: 2
+    @session1.fill_in 'game_players', with: 3
+    @session1.fill_in 'game_bots', with: 1
     @session1.click_on 'Create Game'
     @session2.driver.refresh
     @session2.click_link "Game #1"

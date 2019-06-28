@@ -21,10 +21,11 @@ class Player
 
   def get_target(players)
     names = players.map(&:name).select {|player_name| player_name != name}
+    names.sample
   end
 
   def get_rank
-    
+    cards.map(&:rank).sample
   end
 
   def add_cards(cards)

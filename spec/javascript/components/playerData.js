@@ -11,6 +11,7 @@ export default {
       pairs: [{ rank: 'K', suit: 'Spades' }, { rank: '5', suit: 'Spades' }]
     }
   ],
+  players: ['Stephen', 'Player2'],
   cards_left: 23,
   player_turn: 2
 }
