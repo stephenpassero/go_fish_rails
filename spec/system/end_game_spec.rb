@@ -8,8 +8,8 @@ RSpec.describe 'End Game', type: :system do
     game = Game.create(players: 2, game_logic: SystemHelper.game_logic, start_at: Time.now())
     GameUser.create(user_id: user1.id, game_id: game.id)
     GameUser.create(user_id: user2.id, game_id: game.id)
-    session1 = Capybara::Session.new(:selenium_chrome, Rails.application)
-    session2 = Capybara::Session.new(:selenium_chrome, Rails.application)
+    session1 = Capybara::Session.new(:selenium_chrome_headless, Rails.application)
+    session2 = Capybara::Session.new(:selenium_chrome_headless, Rails.application)
     SystemHelper.login_users([session1, session2])
     session1.visit("/games/#{game.id}")
     session2.visit("/games/#{game.id}")
@@ -22,6 +22,7 @@ RSpec.describe 'End Game', type: :system do
     request_button.click
     session1.driver.refresh
     # If I take out page here, the test doesn't fail miserably
-    expect(page).to have_content('Game Over')
+    expect(session1).to have_content('Game Over')
+    expect(session1).to have_content('Player1: 1')
   end
 end
