@@ -58,6 +58,9 @@ class GameLogic
     end
     while winner? == false && players[player_turn - 1].cards_left == 0
       @player_turn += 1
+      if player_turn > players.length
+        @player_turn = 1
+      end
     end
   end
 
