@@ -21,7 +21,7 @@ RSpec.describe 'End Game', type: :system do
     request_button = session1.all('.requestCards').first
     request_button.click
     session1.driver.refresh
-    # If I take out page here, the test doesn't fail miserably
+    # If I take out "page" part here, the test doesn't fail miserably
     expect(page).to have_content('Game Over')
   end
 end

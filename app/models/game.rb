@@ -7,6 +7,7 @@ class Game < ApplicationRecord
 
   serialize :game_logic, GameLogic
 
+  # Pass bots to the GameLogic here too
   def start()
     game_logic_class = GameLogic.new(player_names: users.map(&:name), bots: bots)
     game_logic_class.start_game
