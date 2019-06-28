@@ -2,21 +2,16 @@ class GamesController < ApplicationController
   protect_from_forgery with: :null_session
   def create
     @game = Game.create(game_params)
-    if @game.bots >= @game.players
-      @game.destroy
-      redirect_to new_game_path, notice: 'There must be at least one more player than there are bots'
+    if @game.errors.any?
+      redirect_to new_game_path, notice: 'There must be more players than there are bots'
     else
       user = User.find(session[:current_user])
       GameUser.create(game_id: @game.id, user_id: user.id)
       pusher_client.trigger("game", 'new-game', {
         message: "A new game has been created"
       })
-      index = 1
-      @game.bots.times do
-        user = User.create(name: "Bot#{index}")
-        GameUser.create(game_id: @game.id, user_id: user.id)
-        index += 1
-      end
+      # Is this a good idea?
+      @game.players = @game.players - @game.bots
       @game.save
       redirect_to @game
     end
@@ -46,7 +41,6 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     if @game.users.length == @game.players && @game.start_at == nil
-      @game.update(start_at: Time.now)
       @game.start
     end
     @player_name = User.find(session[:current_user]).name

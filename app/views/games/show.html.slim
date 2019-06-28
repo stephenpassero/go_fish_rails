@@ -1,7 +1,10 @@
 - if @game.users.length == @game.players
   = react_component('Game', {id: @game.id, playerData: @initial_state})
 - else
-  h1 = "Waiting for #{@game.players - @game.users.length} more player(s) to join"
+  - if @game.bots > 0
+    h1 = "All bots have joined. Waiting for #{@game.players - @game.users.length} more human player(s) to join"
+  - else
+    h1 = "Waiting for #{@game.players - @game.users.length} more player(s) to join"
   h3 Players Joined:
   - @game.users.each do |user|
     p = user.name
