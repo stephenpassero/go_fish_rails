@@ -1,5 +1,6 @@
 - if notice
-  h2.error = notice
+  div.center
+    div.error = notice
 h2 How many players do you want to play with?
 = form_for @game, url: games_url do |f|
   = f.label "Number of Total Players"

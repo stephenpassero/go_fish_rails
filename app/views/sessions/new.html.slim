@@ -1,3 +1,7 @@
+- if notice
+  div.center
+    h1.error = notice
+
 h1 Welcome to Go Fish
 = form_for @user, url: sessions_url, remote: true do |f|
   = f.label "Name"

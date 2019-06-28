@@ -4,12 +4,17 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_or_initialize_by(name: params[:user][:name])
-    if @user.save!
+    @user = User.find_by(name: params[:user][:name])
+    if @user
       session[:current_user] = @user.id
       redirect_to games_path
     else
-      render :new
+      @user = User.create(name: params[:user][:name])
+      if @user.errors.any?
+        redirect_to '/', notice: 'Player name cannot start with “Bot”'
+      else
+        redirect_to games_path
+      end
     end
   end
 end

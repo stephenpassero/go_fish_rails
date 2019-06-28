@@ -10,5 +10,7 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag    'application'
     = javascript_pack_tag    'pusher'
+  header
+    h3.home = link_to "Home", games_path
   body data-current_user_id="#{session[:current_user]}"
     = yield
